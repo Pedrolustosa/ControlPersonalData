@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ControlPersonalData.Application\ControlPersonalData.Application.csproj" />
+    <ProjectReference Include="..\ControlPersonalData.Domain\ControlPersonalData.Domain.csproj" />
+    <ProjectReference Include="..\ControlPersonalData.Infra\ControlPersonalData.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

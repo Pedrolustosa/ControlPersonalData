@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlPersonalData", "ControlPersonalData\ControlPersonalData.csproj", "{9A107736-620F-4D41-BA78-8128B1F6077D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlPersonalData.API", "ControlPersonalData\ControlPersonalData.API.csproj", "{9A107736-620F-4D41-BA78-8128B1F6077D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPersonalData.Domain", "ControlPersonalData.Domain\ControlPersonalData.Domain.csproj", "{2445EFA1-B3FB-4978-8604-61683029AD60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlPersonalData.Domain", "ControlPersonalData.Domain\ControlPersonalData.Domain.csproj", "{2445EFA1-B3FB-4978-8604-61683029AD60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPersonalData.Infra", "ControlPersonalData.Infra\ControlPersonalData.Infra.csproj", "{13F0FA97-A9BE-448B-8ACB-5D9CB5B37175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlPersonalData.Infra.Data", "ControlPersonalData.Infra\ControlPersonalData.Infra.Data.csproj", "{13F0FA97-A9BE-448B-8ACB-5D9CB5B37175}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPersonalData.Infra.IoC", "ControlPersonalData.Infra.IoC\ControlPersonalData.Infra.IoC.csproj", "{AD0D6C50-8C4C-486A-8683-F9AB05DDDF2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPersonalData.Application", "ControlPersonalData.Application\ControlPersonalData.Application.csproj", "{875CE53F-8990-41FE-85BA-F10C50FD515F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{13F0FA97-A9BE-448B-8ACB-5D9CB5B37175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F0FA97-A9BE-448B-8ACB-5D9CB5B37175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13F0FA97-A9BE-448B-8ACB-5D9CB5B37175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0D6C50-8C4C-486A-8683-F9AB05DDDF2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0D6C50-8C4C-486A-8683-F9AB05DDDF2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0D6C50-8C4C-486A-8683-F9AB05DDDF2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0D6C50-8C4C-486A-8683-F9AB05DDDF2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875CE53F-8990-41FE-85BA-F10C50FD515F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875CE53F-8990-41FE-85BA-F10C50FD515F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875CE53F-8990-41FE-85BA-F10C50FD515F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875CE53F-8990-41FE-85BA-F10C50FD515F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

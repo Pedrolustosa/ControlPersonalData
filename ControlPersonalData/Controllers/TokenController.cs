@@ -6,6 +6,6 @@ namespace ControlPersonalData.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly IAuthenticate _authenticate;
+        
     }
 }
