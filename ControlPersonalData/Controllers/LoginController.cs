@@ -9,19 +9,38 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ControlPersonalData.Controllers
 {
+    /// <summary>
+    /// The login controller.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class TokenController : ControllerBase
+    public class LoginController : ControllerBase
     {
+        /// <summary>
+        /// The authentication.
+        /// </summary>
         private readonly IAuthenticate _authentication;
+        /// <summary>
+        /// The configuration.
+        /// </summary>
         private readonly IConfiguration _configuration;
 
-        public TokenController(IAuthenticate authentication, IConfiguration configuration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// </summary>
+        /// <param name="authentication">The authentication.</param>
+        /// <param name="configuration">The configuration.</param>
+        public LoginController(IAuthenticate authentication, IConfiguration configuration)
         {
             _authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));
             _configuration  = configuration;
         }
 
+        /// <summary>
+        /// Logins a <see cref="UserToken"/>.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<ActionResult<UserToken>> Login([FromBody] Login login)
@@ -38,6 +57,11 @@ namespace ControlPersonalData.Controllers
             }
         }
 
+        /// <summary>
+        /// Registers a <see cref="ActionResult"/>.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPost("Register")]
         [Authorize]
         public async Task<ActionResult> Register([FromBody] Login login)
@@ -52,12 +76,16 @@ namespace ControlPersonalData.Controllers
             }
         }
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        /// <returns>An UserToken.</returns>
         private UserToken GenerateToken(Login login)
         {
             var claims = new[]
             {
                 new Claim("email", login.Email),
-                new Claim("newValue", "newValue"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

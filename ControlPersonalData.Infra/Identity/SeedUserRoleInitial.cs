@@ -3,17 +3,34 @@ using ControlPersonalData.Domain.Account;
 
 namespace ControlPersonalData.Infra.Data.Identity
 {
+    /// <summary>
+    /// The seed user role initial.
+    /// </summary>
     public class SeedUserRoleInitial : ISeedUserRoleInitial
     {
+        /// <summary>
+        /// The user manager.
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
+        /// <summary>
+        /// The role manager.
+        /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SeedUserRoleInitial"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="roleManager">The role manager.</param>
         public SeedUserRoleInitial(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// Seeds the roles.
+        /// </summary>
         public void SeedRoles()
         {
             if (!_roleManager.RoleExistsAsync("User").Result)
@@ -37,6 +54,9 @@ namespace ControlPersonalData.Infra.Data.Identity
             }
         }
 
+        /// <summary>
+        /// Seeds the users.
+        /// </summary>
         public void SeedUsers()
         {
             if (_userManager.FindByEmailAsync("user@localhost.com").Result == null)
