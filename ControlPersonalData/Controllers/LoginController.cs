@@ -2,10 +2,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ControlPersonalData.Models.User;
 using System.IdentityModel.Tokens.Jwt;
 using ControlPersonalData.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
+using ControlPersonalData.Models.Entities;
 
 namespace ControlPersonalData.Controllers
 {
@@ -47,9 +47,7 @@ namespace ControlPersonalData.Controllers
         {
             var result = await _authentication.Authenticate(login.Email, login.Password);
             if (result)
-            {
                 return GenerateToken(login);
-            }
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
@@ -57,18 +55,20 @@ namespace ControlPersonalData.Controllers
             }
         }
 
+
         /// <summary>
         /// Registers a <see cref="ActionResult"/>.
         /// </summary>
-        /// <param name="login">The login.</param>
+        /// <param name="register">The register.</param>
+        /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPost("Register")]
         [Authorize]
-        public async Task<ActionResult> Register([FromBody] Login login)
+        public async Task<ActionResult> Register([FromBody] Register register, string role)
         {
-            var result = await _authentication.RegisterUser(login.Email, login.Password);
+            var result = await _authentication.RegisterUser(register, role);
             if (result)
-                return Ok($"User {login.Email} was created with success!");
+                return Ok($"User {register.Email} was created with success!");
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");

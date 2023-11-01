@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ControlPersonalData.Domain\ControlPersonalData.Domain.csproj" />
     <ProjectReference Include="..\ControlPersonalData.Infra.IoC\ControlPersonalData.Infra.IoC.csproj" />
   </ItemGroup>
 
