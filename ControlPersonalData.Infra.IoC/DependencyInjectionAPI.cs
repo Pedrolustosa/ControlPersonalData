@@ -28,8 +28,6 @@ namespace ControlPersonalData.Infra.IoC
                             .AddEntityFrameworkStores<ApplicationDbContext>()
                             .AddDefaultTokenProviders();
             services.AddScoped<IAuthenticate, AuthenticateService>();
-            services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-
             return services;
         }
     }

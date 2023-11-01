@@ -1,4 +1,6 @@
-﻿namespace ControlPersonalData.Domain.Account
+﻿using ControlPersonalData.Models.Entities;
+
+namespace ControlPersonalData.Domain.Account
 {
     /// <summary>
     /// The authenticate interface.
@@ -19,7 +21,7 @@
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> RegisterUser(string email, string password);
+        Task<bool> RegisterUser(Register register, string role);
 
         /// <summary>
         /// Logouts a <see cref="Task"/>.
