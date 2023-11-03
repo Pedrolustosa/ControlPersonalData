@@ -2,8 +2,9 @@
 using ControlPersonalData.Domain.Account;
 using ControlPersonalData.Models.Entities;
 using Azure.Core;
+using ControlPersonalData.Infra.Data.Identity;
 
-namespace ControlPersonalData.Infra.Data.Identity
+namespace ControlPersonalData.Infra.Data.Service
 {
     /// <summary>
     /// The authenticate service.
@@ -29,8 +30,8 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign in manager.</param>
-        public AuthenticateService(UserManager<ApplicationUser> userManager, 
-                                   SignInManager<ApplicationUser> signInManager, 
+        public AuthenticateService(UserManager<ApplicationUser> userManager,
+                                   SignInManager<ApplicationUser> signInManager,
                                    RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -96,6 +97,14 @@ namespace ControlPersonalData.Infra.Data.Identity
                 Email = register.Email,
                 UserName = register.Email,
                 CPF = register.CPF,
+                Age = register.Age,
+                BirthDate = register.BirthDate,
+                DateAlteration = register.DateAlteration,
+                DateInsert = register.DateInsert,
+                Name = register.Name,
+                MotherName = register.MotherName,
+                Phone = register.Phone,
+                Status = true,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
         }

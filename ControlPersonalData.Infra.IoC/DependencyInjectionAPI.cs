@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using ControlPersonalData.Infra.Data.Context;
 using ControlPersonalData.Infra.Data.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using ControlPersonalData.Infra.Data.Service;
 
 namespace ControlPersonalData.Infra.IoC
 {
