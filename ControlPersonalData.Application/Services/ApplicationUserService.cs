@@ -56,25 +56,13 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Logins
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="password">The password.</param>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Authenticate(string email, string password)
-        {
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
-            return result.Succeeded;
-        }
-
-        /// <summary>
         /// Registers user.
         /// </summary>
         /// <param name="register">The register.</param>
         /// <param name="role">The role.</param>
         /// <exception cref="Exception"></exception>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> RegisterUser(ApplicationUserDTO applicationUser, string role)
+        public async Task<bool> Register(ApplicationUserDTO applicationUser, string role)
         {
             var register = _mapper.Map<ApplicationUser>(applicationUser);
             var userExist = await _userManager.FindByEmailAsync(register.Email);
@@ -93,12 +81,6 @@ namespace ControlPersonalData.Infra.Data.Service
             else
                 throw new Exception("Please, choose a role for this user!");
         }
-
-        /// <summary>
-        /// Logouts a <see cref="Task"/>.
-        /// </summary>
-        /// <returns>A Task.</returns>
-        public async Task Logout() => await _signInManager.SignOutAsync();
 
         /// <summary>
         /// Gets the all.

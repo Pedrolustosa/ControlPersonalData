@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ControlPersonalData.Infra.Data.Repository;
 using ControlPersonalData.Application.Interfaces;
 using ControlPersonalData.Application.Mappings;
+using ControlPersonalData.Infra.Data.Identity;
+using ControlPersonalData.Domain.Account;
 
 namespace ControlPersonalData.Infra.IoC
 {
@@ -28,12 +30,18 @@ namespace ControlPersonalData.Infra.IoC
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
             b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<ApplicationDbContext>()
-                            .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+                                                                 .AddDefaultTokenProviders();
+
+            //Mappings
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+            //Repositories
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+            //Serices
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
             return services;
         }
     }
