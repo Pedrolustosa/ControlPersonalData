@@ -1,11 +1,11 @@
-﻿using ControlPersonalData.Models.Entities;
+﻿using ControlPersonalData.Application.DTOs;
 
-namespace ControlPersonalData.Domain.Account
+namespace ControlPersonalData.Application.Interfaces
 {
     /// <summary>
     /// The authenticate interface.
     /// </summary>
-    public interface IAuthenticate
+    public interface IApplicationUserService
     {
         /// <summary>
         /// 
@@ -21,12 +21,25 @@ namespace ControlPersonalData.Domain.Account
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> RegisterUser(Register register, string role);
+        Task<bool> RegisterUser(ApplicationUserDTO register, string role);
 
         /// <summary>
         /// Logouts a <see cref="Task"/>.
         /// </summary>
         /// <returns>A Task.</returns>
         Task Logout();
+
+        /// <summary>
+        /// Gets the all.
+        /// </summary>
+        /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
+        Task<IEnumerable<ApplicationUserDTO>> GetAll();
+
+        /// <summary>
+        /// Get the by id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        Task<ApplicationUserDTO> GetById(int id);
     }
 }
