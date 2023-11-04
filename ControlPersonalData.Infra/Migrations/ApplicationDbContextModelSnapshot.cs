@@ -22,7 +22,7 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ControlPersonalData.Infra.Data.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("ControlPersonalData.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -30,13 +30,24 @@ namespace ControlPersonalData.Infra.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Age")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CPF")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateAlteration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateInsert")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -50,6 +61,12 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MotherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -70,6 +87,9 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -120,14 +140,14 @@ namespace ControlPersonalData.Infra.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "35b2e398-16e8-46f6-b5a5-453c30fb77ba",
+                            Id = "06405721-70b2-484f-9555-d67fa0a0eb1a",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "e74ac9fa-b7a1-4192-990d-7a04286ff426",
+                            Id = "17805e44-f2bb-4a5a-8b8b-542050e705c6",
                             ConcurrencyStamp = "2",
                             Name = "User",
                             NormalizedName = "User"
@@ -251,7 +271,7 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ControlPersonalData.Infra.Data.Identity.ApplicationUser", null)
+                    b.HasOne("ControlPersonalData.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,7 +280,7 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ControlPersonalData.Infra.Data.Identity.ApplicationUser", null)
+                    b.HasOne("ControlPersonalData.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,7 +295,7 @@ namespace ControlPersonalData.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ControlPersonalData.Infra.Data.Identity.ApplicationUser", null)
+                    b.HasOne("ControlPersonalData.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -284,7 +304,7 @@ namespace ControlPersonalData.Infra.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ControlPersonalData.Infra.Data.Identity.ApplicationUser", null)
+                    b.HasOne("ControlPersonalData.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

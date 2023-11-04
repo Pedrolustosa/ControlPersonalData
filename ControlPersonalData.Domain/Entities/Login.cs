@@ -1,4 +1,4 @@
-﻿namespace ControlPersonalData.Models.Entities
+﻿namespace ControlPersonalData.Domain.Entities
 {
     /// <summary>
     /// The login.

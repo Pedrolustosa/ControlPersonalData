@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+#nullable disable
 namespace ControlPersonalData.Infra.IoC
 {
     /// <summary>

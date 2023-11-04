@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ControlPersonalData.Domain.Account;
-using ControlPersonalData.Models.Entities;
-using Azure.Core;
-using ControlPersonalData.Infra.Data.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using ControlPersonalData.Domain.Entities;
+using ControlPersonalData.Application.DTOs;
+using ControlPersonalData.Domain.Interfaces;
+using ControlPersonalData.Application.Interfaces;
 
+#nullable disable
 namespace ControlPersonalData.Infra.Data.Service
 {
     /// <summary>
     /// The authenticate service.
     /// </summary>
-    public class AuthenticateService : IAuthenticate
+    public class ApplicationUserService : IApplicationUserService
     {
         /// <summary>
         /// The user manager.
@@ -26,17 +28,31 @@ namespace ControlPersonalData.Infra.Data.Service
         private readonly RoleManager<IdentityRole> _roleManager;
 
         /// <summary>
+        /// The user repository.
+        /// </summary>
+        private readonly IApplicationUserRepository _userRepository;
+
+        /// <summary>
+        /// The mapper.
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticateService"/> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign in manager.</param>
-        public AuthenticateService(UserManager<ApplicationUser> userManager,
+        public ApplicationUserService(UserManager<ApplicationUser> userManager,
                                    SignInManager<ApplicationUser> signInManager,
-                                   RoleManager<IdentityRole> roleManager)
+                                   RoleManager<IdentityRole> roleManager,
+                                   IApplicationUserRepository applicationUserRepository,
+                                   IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userRepository = applicationUserRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -58,21 +74,20 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="role">The role.</param>
         /// <exception cref="Exception"></exception>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> RegisterUser(Register register, string role)
+        public async Task<bool> RegisterUser(ApplicationUserDTO applicationUser, string role)
         {
+            var register = _mapper.Map<ApplicationUser>(applicationUser);
             var userExist = await _userManager.FindByEmailAsync(register.Email);
             if (userExist != null)
                 throw new Exception("Email already exists.");
 
-            ApplicationUser applicationUser = NewUser(register);
-
             if (await _roleManager.RoleExistsAsync(role))
             {
-                var result = await _userManager.CreateAsync(applicationUser, register.Password);
+                var result = await _userManager.CreateAsync(register, applicationUser.Password);
                 if (!result.Succeeded)
                     throw new Exception("Error!");
 
-                await _userManager.AddToRoleAsync(applicationUser, role);
+                await _userManager.AddToRoleAsync(register, role);
                 return result.Succeeded;
             }
             else
@@ -86,27 +101,24 @@ namespace ControlPersonalData.Infra.Data.Service
         public async Task Logout() => await _signInManager.SignOutAsync();
 
         /// <summary>
-        /// News the user.
+        /// Gets the all.
         /// </summary>
-        /// <param name="register">The register.</param>
-        /// <returns>An ApplicationUser.</returns>
-        private static ApplicationUser NewUser(Register register)
+        /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
+        public async Task<IEnumerable<ApplicationUserDTO>> GetAll()
         {
-            return new ApplicationUser
-            {
-                Email = register.Email,
-                UserName = register.Email,
-                CPF = register.CPF,
-                Age = register.Age,
-                BirthDate = register.BirthDate,
-                DateAlteration = register.DateAlteration,
-                DateInsert = register.DateInsert,
-                Name = register.Name,
-                MotherName = register.MotherName,
-                Phone = register.Phone,
-                Status = true,
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
+            var applicationUser = await _userRepository.GetAll();
+            return _mapper.Map<IEnumerable<ApplicationUserDTO>>(applicationUser);
+        }
+
+        /// <summary>
+        /// Get the by id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        public async Task<ApplicationUserDTO> GetById(int id)
+        {
+            var applicationUser = await _userRepository.GetById(id);
+            return _mapper.Map<ApplicationUserDTO>(applicationUser);
         }
     }
 }
