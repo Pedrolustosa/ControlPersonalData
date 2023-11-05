@@ -50,33 +50,6 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Registers user.
-        /// </summary>
-        /// <param name="register">The register.</param>
-        /// <param name="role">The role.</param>
-        /// <exception cref="Exception"></exception>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Register(ApplicationUserDTO applicationUser, string role)
-        {
-            var register = _mapper.Map<ApplicationUser>(applicationUser);
-            var userExist = await _userManager.FindByEmailAsync(register.Email);
-            if (userExist != null)
-                throw new Exception("Email already exists.");
-
-            if (await _roleManager.RoleExistsAsync(role))
-            {
-                var result = await _userManager.CreateAsync(register, applicationUser.Password);
-                if (!result.Succeeded)
-                    throw new Exception("Error!");
-
-                await _userManager.AddToRoleAsync(register, role);
-                return result.Succeeded;
-            }
-            else
-                throw new Exception("Please, choose a role for this user!");
-        }
-
-        /// <summary>
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
@@ -113,6 +86,33 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, age, motherName, status);
             return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
+        }
+
+        /// <summary>
+        /// Register a User
+        /// </summary>
+        /// <param name="applicationUser">The application user.</param>
+        /// <param name="role">The role.</param>
+        /// <exception cref="Exception"></exception>
+        /// <returns><![CDATA[A Task<bool>.]]></returns>
+        public async Task<bool> Register(ApplicationUserDTO applicationUser, string role)
+        {
+            var register = _mapper.Map<ApplicationUser>(applicationUser);
+            var userExist = await _userManager.FindByEmailAsync(register.Email);
+            if (userExist != null)
+                throw new Exception("Email already exists.");
+
+            if (await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _userManager.CreateAsync(register, applicationUser.Password);
+                if (!result.Succeeded)
+                    throw new Exception("Error!");
+
+                await _userManager.AddToRoleAsync(register, role);
+                return result.Succeeded;
+            }
+            else
+                throw new Exception("Please, choose a role for this user!");
         }
     }
 }

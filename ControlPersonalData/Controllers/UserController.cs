@@ -30,25 +30,6 @@ namespace ControlPersonalData.Controllers
         }
 
         /// <summary>
-        /// Registers a <see cref="UserToken"/>.
-        /// </summary>
-        /// <param name="register">The register.</param>
-        /// <param name="role">The role.</param>
-        /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
-        [HttpPost("Register")]
-        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserDTO register, string role)
-        {
-            var result = await _applicationUserService.Register(register, role);
-            if (result)
-                return Ok($"User {register.Email} was created with success!");
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
@@ -71,13 +52,32 @@ namespace ControlPersonalData.Controllers
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
-        [HttpGet("GetFilterUsers")]
+        [HttpGet("GetFilter")]
         public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
                                                                            string cPF, string birthDate, string age, 
                                                                            string motherName, bool status)
         {
             var result = await _applicationUserService.GetFilter(email, name, phoneNumber, cPF, birthDate, age, motherName, status);
             return result;
+        }
+
+        /// <summary>
+        /// Registers a <see cref="UserToken"/>.
+        /// </summary>
+        /// <param name="register">The register.</param>
+        /// <param name="role">The role.</param>
+        /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
+        [HttpPost("Register")]
+        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserDTO register, string role)
+        {
+            var result = await _applicationUserService.Register(register, role);
+            if (result)
+                return Ok($"User {register.Email} was created with success!");
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
+                return BadRequest(ModelState);
+            }
         }
     }
 }
