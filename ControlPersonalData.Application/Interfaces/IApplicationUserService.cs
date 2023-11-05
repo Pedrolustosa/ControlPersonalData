@@ -21,14 +21,6 @@ namespace ControlPersonalData.Application.Interfaces
         Task<ApplicationUserDTO> GetById(int id);
 
         /// <summary>
-        /// Register a user
-        /// </summary>
-        /// <param name="register">The register.</param>
-        /// <param name="role">The role.</param>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> Register(ApplicationUserDTO register, string role);
-
-        /// <summary>
         /// Gets the filter.
         /// </summary>
         /// <param name="email">The email.</param>
@@ -43,5 +35,13 @@ namespace ControlPersonalData.Application.Interfaces
         Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
                                                               string cPF, string birthDate, string age, 
                                                               string motherName, bool status);
+
+        /// <summary>
+        /// Register a user
+        /// </summary>
+        /// <param name="register">The register.</param>
+        /// <param name="role">The role.</param>
+        /// <returns><![CDATA[A Task<bool>.]]></returns>
+        Task<bool> Register(ApplicationUserDTO register, string role);
     }
 }
