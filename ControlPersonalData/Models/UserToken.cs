@@ -1,5 +1,5 @@
-﻿namespace ControlPersonalData.Domain.Entities
-{
+﻿namespace ControlPersonalData.API.Models
+{ 
     /// <summary>
     /// The user token.
     /// </summary>

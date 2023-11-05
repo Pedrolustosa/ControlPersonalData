@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ControlPersonalData.API.Models;
 using ControlPersonalData.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
 using ControlPersonalData.Domain.Entities;

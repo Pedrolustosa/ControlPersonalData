@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ControlPersonalData.API.Models;
 using Microsoft.AspNetCore.Authorization;
-using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Application.DTOs;
 using ControlPersonalData.Application.Interfaces;
 
