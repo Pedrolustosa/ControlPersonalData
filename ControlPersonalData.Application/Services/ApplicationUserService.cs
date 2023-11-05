@@ -17,10 +17,6 @@ namespace ControlPersonalData.Infra.Data.Service
         /// The user manager.
         /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
-        /// <summary>
-        /// sign in manager.
-        /// </summary>
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         /// <summary>
         /// The role manager.
@@ -43,13 +39,11 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign in manager.</param>
         public ApplicationUserService(UserManager<ApplicationUser> userManager,
-                                   SignInManager<ApplicationUser> signInManager,
                                    RoleManager<IdentityRole> roleManager,
                                    IApplicationUserRepository applicationUserRepository,
                                    IMapper mapper)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _userRepository = applicationUserRepository;
             _mapper = mapper;
@@ -86,10 +80,10 @@ namespace ControlPersonalData.Infra.Data.Service
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUserDTO>> GetAll()
+        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetAll()
         {
             var applicationUser = await _userRepository.GetAll();
-            return _mapper.Map<IEnumerable<ApplicationUserDTO>>(applicationUser);
+            return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
         }
 
         /// <summary>
@@ -101,6 +95,24 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var applicationUser = await _userRepository.GetById(id);
             return _mapper.Map<ApplicationUserDTO>(applicationUser);
+        }
+
+        /// <summary>
+        /// Gets the filter.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="cPF">The c PF.</param>
+        /// <param name="birthDate">The birth date.</param>
+        /// <param name="age">The age.</param>
+        /// <param name="motherName">The mother name.</param>
+        /// <param name="status">If true, status.</param>
+        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
+        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string age, string motherName, bool status)
+        {
+            var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, age, motherName, status);
+            return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ControlPersonalData.Application.Interfaces
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        Task<IEnumerable<ApplicationUserDTO>> GetAll();
+        Task<IEnumerable<ApplicationUserFilterDTO>> GetAll();
 
         /// <summary>
         /// Get the by id.
@@ -21,11 +21,27 @@ namespace ControlPersonalData.Application.Interfaces
         Task<ApplicationUserDTO> GetById(int id);
 
         /// <summary>
-        /// Registers user.
+        /// Register a user
         /// </summary>
         /// <param name="register">The register.</param>
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         Task<bool> Register(ApplicationUserDTO register, string role);
+
+        /// <summary>
+        /// Gets the filter.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="cPF">The c PF.</param>
+        /// <param name="birthDate">The birth date.</param>
+        /// <param name="age">The age.</param>
+        /// <param name="motherName">The mother name.</param>
+        /// <param name="status">If true, status.</param>
+        /// <returns><![CDATA[A Task<IEnumerable<ApplicationUserFilterDTO>>.]]></returns>
+        Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
+                                                              string cPF, string birthDate, string age, 
+                                                              string motherName, bool status);
     }
 }

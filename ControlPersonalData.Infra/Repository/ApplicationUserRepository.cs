@@ -1,7 +1,7 @@
-﻿using ControlPersonalData.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Domain.Interfaces;
 using ControlPersonalData.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 namespace ControlPersonalData.Infra.Data.Repository
@@ -44,6 +44,33 @@ namespace ControlPersonalData.Infra.Data.Repository
         {
             var user = await _context.Users.FindAsync(id);
             return user;
+        }
+
+        /// <summary>
+        /// Gets the filter.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="cPF">The c PF.</param>
+        /// <param name="birthDate">The birth date.</param>
+        /// <param name="age">The age.</param>
+        /// <param name="motherName">The mother name.</param>
+        /// <param name="status">If true, status.</param>
+        /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
+        public async Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
+                                                                  string cPF, string birthDate, string age,
+                                                                  string motherName, bool status)
+        {
+            var filterUsers = await _context.Users.Where(u => u.Email == email ||
+                                                         u.Name == name ||
+                                                         u.PhoneNumber == phoneNumber || 
+                                                         u.CPF == cPF || 
+                                                         u.BirthDate.ToString() == birthDate || 
+                                                         u.Age == age || 
+                                                         u.MotherName == motherName || 
+                                                         u.Status.Equals(status)).ToListAsync();
+            return filterUsers;
         }
     }
 }

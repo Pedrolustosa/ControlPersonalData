@@ -12,22 +12,19 @@ builder.Services.AddInfrastructureSwagger(configuration);
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (true)
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ControlPersonalData.API v1"));
 }
 
-var devClient = "http://localhost:4200";
-app.UseCors(x => x.AllowAnyOrigin()
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .WithOrigins(devClient));
-
 app.UseHttpsRedirection();
-app.UseStatusCodePages();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors(opt => opt.AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowAnyOrigin());
 app.MapControllers();
 app.Run();

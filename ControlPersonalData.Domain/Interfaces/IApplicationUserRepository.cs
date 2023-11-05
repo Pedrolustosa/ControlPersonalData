@@ -12,11 +12,26 @@ namespace ControlPersonalData.Domain.Interfaces
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         Task<IEnumerable<ApplicationUser>> GetAll();
+
         /// <summary>
         /// Get the by id.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
         Task<ApplicationUser> GetById(int id);
+
+        /// <summary>
+        /// Gets the filter.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <param name="cPF">The c PF.</param>
+        /// <param name="birthDate">The birth date.</param>
+        /// <param name="age">The age.</param>
+        /// <param name="motherName">The mother name.</param>
+        /// <param name="status">If true, status.</param>
+        /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
+        Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string age, string motherName, bool status);
     }
 }
