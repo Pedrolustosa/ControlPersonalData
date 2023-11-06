@@ -59,9 +59,9 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Authenticate(string email, string password)
+        public async Task<bool> Authenticate(string userName, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
             return result.Succeeded;
         }
 
@@ -71,11 +71,11 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <param name="id">The id.</param>
         /// <param name="email">The email.</param>
         /// <returns>A string.</returns>
-        public string GenerateToken(string email)
+        public string GenerateToken(string userName)
         {
             var claims = new[]
             {
-                new Claim("email", email),
+                new Claim("email", userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ControlPersonalData.API.Models;
-using ControlPersonalData.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
 using ControlPersonalData.Domain.Entities;
+using ControlPersonalData.Application.Interfaces;
+using ControlPersonalData.Domain.Account;
 
 namespace ControlPersonalData.API.Controllers
 {
@@ -31,20 +32,17 @@ namespace ControlPersonalData.API.Controllers
         /// <summary>
         /// Authenticates a <see cref="UserToken"/>.
         /// </summary>
-        /// <param name="login">The login.</param>
+        /// <param name="loginDTO">The login.</param>
         /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
         [HttpPost("Authenticate")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserToken>> Authenticate([FromBody] Login login)
+        public async Task<ActionResult<UserToken>> Authenticate([FromBody] LoginDTO loginDTO)
         {
-            var result = await _authentication.Authenticate(login.Email, login.Password);
+            var result = await _authentication.Authenticate(loginDTO.UserName, loginDTO.Password);
             if (result)
             {
-                var token = _authentication.GenerateToken(login.Email);
-                return new UserToken
-                {
-                    Token = token,
-                };
+                var token = _authentication.GenerateToken(loginDTO.UserName);
+                return new UserToken { Token = token };
             }
             else
             {

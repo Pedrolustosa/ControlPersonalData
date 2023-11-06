@@ -1,4 +1,5 @@
 ﻿using ControlPersonalData.Application.DTOs;
+using ControlPersonalData.Domain.Entities;
 
 namespace ControlPersonalData.Application.Interfaces
 {
@@ -42,6 +43,20 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="register">The register.</param>
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> Register(ApplicationUserDTO register, string role);
+        Task<bool> Register(ApplicationUserRegisterDTO register, string role);
+
+        /// <summary>
+        /// Gets the user by email.
+        /// </summary>
+        /// <param name="userName">The email.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        Task<ApplicationUserDTO> GetUserName(string userName);
+
+        /// <summary>
+        /// Updates the account.
+        /// </summary>
+        /// <param name="applicationUserDTO">The application user DTO.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        Task<ApplicationUserDTO> UpdateAccount(ApplicationUserDTO applicationUserDTO);
     }
 }

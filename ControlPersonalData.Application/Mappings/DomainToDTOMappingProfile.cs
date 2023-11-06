@@ -14,6 +14,7 @@ namespace ControlPersonalData.Application.Mappings
         /// </summary>
         public DomainToDTOMappingProfile() {
             CreateMap<ApplicationUser, ApplicationUserDTO>().ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserRegisterDTO>().ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserFilterDTO>().ReverseMap();
         }
     }
