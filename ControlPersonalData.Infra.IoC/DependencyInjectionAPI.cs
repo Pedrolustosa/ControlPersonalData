@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using ControlPersonalData.Domain.Account;
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Domain.Interfaces;
 using ControlPersonalData.Infra.Data.Service;
 using ControlPersonalData.Infra.Data.Context;
+using ControlPersonalData.Infra.Data.Identity;
+using ControlPersonalData.Application.Mappings;
 using Microsoft.Extensions.DependencyInjection;
 using ControlPersonalData.Infra.Data.Repository;
 using ControlPersonalData.Application.Interfaces;
-using ControlPersonalData.Application.Mappings;
-using ControlPersonalData.Infra.Data.Identity;
-using ControlPersonalData.Domain.Account;
 
 namespace ControlPersonalData.Infra.IoC
 {

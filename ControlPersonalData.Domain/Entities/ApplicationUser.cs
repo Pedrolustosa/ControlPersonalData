@@ -13,6 +13,7 @@ namespace ControlPersonalData.Domain.Entities
         /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
         /// </summary>
         /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="name">The name.</param>
         /// <param name="cPF">The c PF.</param>
@@ -25,11 +26,11 @@ namespace ControlPersonalData.Domain.Entities
         {
             ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
         }
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="name">The name.</param>
         /// <param name="cPF">The c PF.</param>
@@ -47,6 +48,7 @@ namespace ControlPersonalData.Domain.Entities
         /// Validates the domain.
         /// </summary>
         /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="name">The name.</param>
         /// <param name="cPF">The c PF.</param>
@@ -70,16 +72,6 @@ namespace ControlPersonalData.Domain.Entities
             MotherName = motherName;
             Status = status;
         }
-
-        /// <summary>
-        /// Gets the email.
-        /// </summary>
-        public new string Email { get; private set; }
-
-        /// <summary>
-        /// Gets the user name.
-        /// </summary>
-        public new string UserName { get; private set; }
 
         /// <summary>
         /// Gets or Sets the name.

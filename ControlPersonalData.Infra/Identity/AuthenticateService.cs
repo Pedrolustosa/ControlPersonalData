@@ -1,11 +1,11 @@
-﻿using ControlPersonalData.Domain.Account;
-using ControlPersonalData.Domain.Entities;
+﻿using System.Text;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using ControlPersonalData.Domain.Account;
+using Microsoft.Extensions.Configuration;
+using ControlPersonalData.Domain.Entities;
 
 #nullable disable
 namespace ControlPersonalData.Infra.Data.Identity
@@ -16,19 +16,9 @@ namespace ControlPersonalData.Infra.Data.Identity
     public class AuthenticateService : IAuthenticateService
     {
         /// <summary>
-        /// The user manager.
-        /// </summary>
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        /// <summary>
         /// sign in manager.
         /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager;
-
-        /// <summary>
-        /// The role manager.
-        /// </summary>
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         /// <summary>
         /// The configuration.
@@ -42,19 +32,15 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="roleManager">The role manager.</param>
         /// <param name="configuration">The configuration.</param>
-        public AuthenticateService(UserManager<ApplicationUser> userManager,
-                                   SignInManager<ApplicationUser> signInManager,
-                                   RoleManager<IdentityRole> roleManager,
+        public AuthenticateService(SignInManager<ApplicationUser> signInManager,
                                    IConfiguration configuration)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _configuration = configuration;
         }
 
         /// <summary>
-        /// 
+        /// Login
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="password">The password.</param>

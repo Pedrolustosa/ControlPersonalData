@@ -1,4 +1,5 @@
-﻿namespace ControlPersonalData.API.Models
+﻿#nullable disable
+namespace ControlPersonalData.API.Models
 { 
     /// <summary>
     /// The user token.
@@ -8,11 +9,6 @@
         /// <summary>
         /// Gets or Sets the token.
         /// </summary>
-        public string? Token { get; set; }
-
-        /// <summary>
-        /// Gets or Sets the expiration.
-        /// </summary>
-        public DateTime Expiration { get; set; }
+        public string Token { get; set; }
     }
 }

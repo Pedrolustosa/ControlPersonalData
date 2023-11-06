@@ -39,19 +39,8 @@ namespace ControlPersonalData.Domain.Interfaces
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string age, string motherName, bool status);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity">The entity.</param>
-        void Update<T>(T entity) where T : class;
-
-        /// <summary>
-        /// Save changes asynchronously.
-        /// </summary>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> SaveChangesAsync();
+        Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
+                                                     string cPF, string birthDate, string age, 
+                                                     string motherName, bool status);
     }
 }

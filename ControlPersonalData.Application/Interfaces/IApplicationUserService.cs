@@ -1,5 +1,4 @@
 ﻿using ControlPersonalData.Application.DTOs;
-using ControlPersonalData.Domain.Entities;
 
 namespace ControlPersonalData.Application.Interfaces
 {
@@ -22,6 +21,13 @@ namespace ControlPersonalData.Application.Interfaces
         Task<ApplicationUserDTO> GetById(int id);
 
         /// <summary>
+        /// Gets the user by email.
+        /// </summary>
+        /// <param name="userName">The email.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        Task<ApplicationUserDTO> GetUserName(string userName);
+
+        /// <summary>
         /// Gets the filter.
         /// </summary>
         /// <param name="email">The email.</param>
@@ -38,25 +44,18 @@ namespace ControlPersonalData.Application.Interfaces
                                                               string motherName, bool status);
 
         /// <summary>
-        /// Register a user
+        /// 
         /// </summary>
-        /// <param name="register">The register.</param>
+        /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> Register(ApplicationUserRegisterDTO register, string role);
-
-        /// <summary>
-        /// Gets the user by email.
-        /// </summary>
-        /// <param name="userName">The email.</param>
-        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        Task<ApplicationUserDTO> GetUserName(string userName);
+        Task<bool> Register(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role);
 
         /// <summary>
         /// Updates the account.
         /// </summary>
-        /// <param name="applicationUserDTO">The application user DTO.</param>
-        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        Task<ApplicationUserDTO> UpdateAccount(ApplicationUserDTO applicationUserDTO);
+        /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserUpdateDTO>.]]></returns>
+        Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO);
     }
 }

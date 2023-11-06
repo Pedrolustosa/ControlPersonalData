@@ -34,10 +34,12 @@ namespace ControlPersonalData.Infra.Data.Service
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthenticateService"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationUserService"/> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
-        /// <param name="signInManager">The sign in manager.</param>
+        /// <param name="roleManager">The role manager.</param>
+        /// <param name="applicationUserRepository">The application user repository.</param>
+        /// <param name="mapper">The mapper.</param>
         public ApplicationUserService(UserManager<ApplicationUser> userManager,
                                    RoleManager<IdentityRole> roleManager,
                                    IApplicationUserRepository applicationUserRepository,
@@ -71,6 +73,18 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
+        /// Gets the user name.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        public async Task<ApplicationUserDTO> GetUserName(string userName)
+        {
+            var user = await _userRepository.GetUserName(userName) ?? throw new ArgumentNullException("This user not exits!");
+            var applicationUserDTO = _mapper.Map<ApplicationUserDTO>(user);
+            return applicationUserDTO;
+        }
+
+        /// <summary>
         /// Gets the filter.
         /// </summary>
         /// <param name="email">The email.</param>
@@ -89,26 +103,22 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Register a User
+        /// 
         /// </summary>
-        /// <param name="applicationUser">The application user.</param>
+        /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
         /// <exception cref="Exception"></exception>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Register(ApplicationUserRegisterDTO applicationUser, string role)
+        public async Task<bool> Register(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
         {
-            var register = _mapper.Map<ApplicationUser>(applicationUser);
-            var userExist = await _userManager.FindByEmailAsync(register.Email);
-            if (userExist != null)
-                throw new Exception("Email already exists.");
-
+            var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
+            var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
+            if (userExist != null) throw new Exception("Email already exists.");
             if (await _roleManager.RoleExistsAsync(role))
             {
-                var result = await _userManager.CreateAsync(register, applicationUser.Password);
-                if (!result.Succeeded)
-                    throw new Exception("Error!");
-
-                await _userManager.AddToRoleAsync(register, role);
+                var result = await _userManager.CreateAsync(applicationUser, applicationUserRegisterDTO.Password);
+                if (!result.Succeeded) throw new Exception("Error!");
+                await _userManager.AddToRoleAsync(applicationUser, role);
                 return result.Succeeded;
             }
             else
@@ -116,45 +126,24 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Gets the user by email asynchronously.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        public async Task<ApplicationUserDTO> GetUserName(string userName)
-        {
-            var user = await _userRepository.GetUserName(userName);
-            if (user == null) return null;
-
-            var applicationUserDTO = _mapper.Map<ApplicationUserDTO>(user);
-            return applicationUserDTO;
-        }
-
-        /// <summary>
         /// Updates the account.
         /// </summary>
-        /// <param name="applicationUserDTO">The application user DTO.</param>
+        /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <exception cref="NotImplementedException"></exception>
         /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        public async Task<ApplicationUserDTO> UpdateAccount(ApplicationUserDTO applicationUserDTO)
+        public async Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO) 
         {
-            var user = await _userRepository.GetUserName(applicationUserDTO.UserName);
-            if (user == null) return null;
-
-            applicationUserDTO.Id = user.Id;
-            _mapper.Map(applicationUserDTO, user);
-            if (applicationUserDTO.Password != null)
+            var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
+            applicationUserUpdateDTO.Id = user.Id;
+            _mapper.Map(applicationUserUpdateDTO, user);
+            if (applicationUserUpdateDTO.Password != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                await _userManager.ResetPasswordAsync(user, token, applicationUserDTO.Password);
-            }
-
-            _userRepository.Update(user);
-            if (await _userRepository.SaveChangesAsync())
-            {
-                var userRetorno = await _userRepository.GetUserName(user.UserName);
-                return _mapper.Map<ApplicationUserDTO>(userRetorno);
-            }
-            return null;
+                await _userManager.ResetPasswordAsync(user, token, applicationUserUpdateDTO.Password);
+            } 
+            await _userManager.UpdateAsync(user);
+            var userRetorno = await _userRepository.GetUserName(user.UserName);
+            return _mapper.Map<ApplicationUserUpdateDTO>(userRetorno);
         }
     }
 }

@@ -36,9 +36,9 @@ namespace ControlPersonalData.Infra.Data.Repository
         }
 
         /// <summary>
-        /// Get the by email.
+        /// Gets the user name.
         /// </summary>
-        /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
         public async Task<ApplicationUser> GetUserName(string userName)
         {
@@ -82,25 +82,6 @@ namespace ControlPersonalData.Infra.Data.Repository
                                                          u.MotherName == motherName || 
                                                          u.Status.Equals(status)).ToListAsync();
             return filterUsers;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity">The entity.</param>
-        public void Update<T>(T entity) where T : class
-        {
-            _context.Update(entity);
-        }
-
-        /// <summary>
-        /// Save changes asynchronously.
-        /// </summary>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }

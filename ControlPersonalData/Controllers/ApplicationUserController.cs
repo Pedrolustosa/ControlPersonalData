@@ -8,12 +8,12 @@ using ControlPersonalData.Application.Interfaces;
 namespace ControlPersonalData.Controllers
 {
     /// <summary>
-    /// The user controller.
+    /// The application user controller.
     /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ApplicationUserController : ControllerBase
     {
         /// <summary>
         /// The application user service.
@@ -21,10 +21,10 @@ namespace ControlPersonalData.Controllers
         private readonly IApplicationUserService _applicationUserService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationUserController"/> class.
         /// </summary>
         /// <param name="applicationUserService">The application user service.</param>
-        public UserController(IApplicationUserService applicationUserService)
+        public ApplicationUserController(IApplicationUserService applicationUserService)
         {
             _applicationUserService = applicationUserService;
         }
@@ -64,15 +64,16 @@ namespace ControlPersonalData.Controllers
         /// <summary>
         /// Registers a <see cref="UserToken"/>.
         /// </summary>
-        /// <param name="register">The register.</param>
+        /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
         [HttpPost("Register")]
-        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserRegisterDTO register, string role)
+        [AllowAnonymous]
+        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
         {
-            var result = await _applicationUserService.Register(register, role);
+            var result = await _applicationUserService.Register(applicationUserRegisterDTO, role);
             if (result)
-                return Ok($"User {register.Email} was created with success!");
+                return Ok($"User {applicationUserRegisterDTO.Email} was created with success!");
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
@@ -83,23 +84,16 @@ namespace ControlPersonalData.Controllers
         /// <summary>
         /// Updates the user.
         /// </summary>
-        /// <param name="applicationUserDTO">The application user DTO.</param>
+        /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPut("UpdateUser")]
         [AllowAnonymous]
-        public async Task<ActionResult> UpdateUser(ApplicationUserDTO applicationUserDTO)
+        public async Task<ActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
-            var user = await _applicationUserService.GetUserName(applicationUserDTO.UserName);
-            if (user == null) return Unauthorized("User Invalid!");
-
-            var userReturn = await _applicationUserService.UpdateAccount(applicationUserDTO);
-            if (userReturn == null) return NoContent();
-
-            return Ok(new
-            {
-                email = userReturn.Email,
-                name = userReturn.Name
-            });
+            _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
+            var applicationUserUpdate = await _applicationUserService.UpdateAccount(applicationUserUpdateDTO);
+            if (applicationUserUpdate is null) return NoContent();
+            return Ok(new { email = applicationUserUpdate.Email });
         }
     }
 }
