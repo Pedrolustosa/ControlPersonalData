@@ -95,7 +95,7 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="role">The role.</param>
         /// <exception cref="Exception"></exception>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Register(ApplicationUserDTO applicationUser, string role)
+        public async Task<bool> Register(ApplicationUserRegisterDTO applicationUser, string role)
         {
             var register = _mapper.Map<ApplicationUser>(applicationUser);
             var userExist = await _userManager.FindByEmailAsync(register.Email);
@@ -113,6 +113,48 @@ namespace ControlPersonalData.Infra.Data.Service
             }
             else
                 throw new Exception("Please, choose a role for this user!");
+        }
+
+        /// <summary>
+        /// Gets the user by email asynchronously.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        public async Task<ApplicationUserDTO> GetUserName(string userName)
+        {
+            var user = await _userRepository.GetUserName(userName);
+            if (user == null) return null;
+
+            var applicationUserDTO = _mapper.Map<ApplicationUserDTO>(user);
+            return applicationUserDTO;
+        }
+
+        /// <summary>
+        /// Updates the account.
+        /// </summary>
+        /// <param name="applicationUserDTO">The application user DTO.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
+        public async Task<ApplicationUserDTO> UpdateAccount(ApplicationUserDTO applicationUserDTO)
+        {
+            var user = await _userRepository.GetUserName(applicationUserDTO.UserName);
+            if (user == null) return null;
+
+            applicationUserDTO.Id = user.Id;
+            _mapper.Map(applicationUserDTO, user);
+            if (applicationUserDTO.Password != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                await _userManager.ResetPasswordAsync(user, token, applicationUserDTO.Password);
+            }
+
+            _userRepository.Update(user);
+            if (await _userRepository.SaveChangesAsync())
+            {
+                var userRetorno = await _userRepository.GetUserName(user.UserName);
+                return _mapper.Map<ApplicationUserDTO>(userRetorno);
+            }
+            return null;
         }
     }
 }

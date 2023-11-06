@@ -68,7 +68,7 @@ namespace ControlPersonalData.Controllers
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
         [HttpPost("Register")]
-        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserDTO register, string role)
+        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserRegisterDTO register, string role)
         {
             var result = await _applicationUserService.Register(register, role);
             if (result)
@@ -78,6 +78,28 @@ namespace ControlPersonalData.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Updates the user.
+        /// </summary>
+        /// <param name="applicationUserDTO">The application user DTO.</param>
+        /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
+        [HttpPut("UpdateUser")]
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateUser(ApplicationUserDTO applicationUserDTO)
+        {
+            var user = await _applicationUserService.GetUserName(applicationUserDTO.UserName);
+            if (user == null) return Unauthorized("User Invalid!");
+
+            var userReturn = await _applicationUserService.UpdateAccount(applicationUserDTO);
+            if (userReturn == null) return NoContent();
+
+            return Ok(new
+            {
+                email = userReturn.Email,
+                name = userReturn.Name
+            });
         }
     }
 }

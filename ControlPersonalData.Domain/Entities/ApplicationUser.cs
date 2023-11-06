@@ -20,10 +20,10 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
-        public ApplicationUser(string email, string phoneNumber,
+        public ApplicationUser(string email, string userName, string phoneNumber,
             string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
         {
-            ValidateDomain(email, phoneNumber, name, cPF, birthDate, age, motherName, status);
+            ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
         }
 
         /// <summary>
@@ -37,10 +37,10 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
-        public void Update(string email, string phoneNumber,
+        public void Update(string email, string userName, string phoneNumber,
             string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
         {
-            ValidateDomain(email, phoneNumber, name, cPF, birthDate, age, motherName, status);
+            ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
         }
 
         /// <summary>
@@ -54,13 +54,13 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
-        public void ValidateDomain(string email, string phoneNumber,
+        public void ValidateDomain(string email, string userName, string phoneNumber,
             string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
         {
             DomainExceptionValidation.When(cPF.Length != 11, "CPF Incorrect!");
 
             Email = email;
-            UserName = email;
+            UserName = userName;
             PhoneNumber = phoneNumber;
             Name = name;
             CPF = cPF;
@@ -75,6 +75,11 @@ namespace ControlPersonalData.Domain.Entities
         /// Gets the email.
         /// </summary>
         public new string Email { get; private set; }
+
+        /// <summary>
+        /// Gets the user name.
+        /// </summary>
+        public new string UserName { get; private set; }
 
         /// <summary>
         /// Gets or Sets the name.

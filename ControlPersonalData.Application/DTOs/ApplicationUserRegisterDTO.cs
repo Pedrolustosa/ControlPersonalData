@@ -1,19 +1,12 @@
 ﻿#nullable disable
-using System.Text.Json.Serialization;
 
 namespace ControlPersonalData.Application.DTOs
 {
     /// <summary>
     /// The application user DTO.
     /// </summary>
-    public class ApplicationUserDTO
+    public class ApplicationUserRegisterDTO
     {
-        /// <summary>
-        /// Gets or Sets the id.
-        /// </summary>
-        [JsonIgnore]
-        public string Id { get; set; }
-
         /// <summary>
         /// Gets the email.
         /// </summary>

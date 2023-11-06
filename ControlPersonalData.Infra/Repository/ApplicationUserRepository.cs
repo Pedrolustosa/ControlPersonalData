@@ -36,6 +36,17 @@ namespace ControlPersonalData.Infra.Data.Repository
         }
 
         /// <summary>
+        /// Get the by email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        public async Task<ApplicationUser> GetUserName(string userName)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            return user;
+        }
+
+        /// <summary>
         /// Get the by id.
         /// </summary>
         /// <param name="id">The id.</param>
@@ -71,6 +82,25 @@ namespace ControlPersonalData.Infra.Data.Repository
                                                          u.MotherName == motherName || 
                                                          u.Status.Equals(status)).ToListAsync();
             return filterUsers;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The entity.</param>
+        public void Update<T>(T entity) where T : class
+        {
+            _context.Update(entity);
+        }
+
+        /// <summary>
+        /// Save changes asynchronously.
+        /// </summary>
+        /// <returns><![CDATA[A Task<bool>.]]></returns>
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
