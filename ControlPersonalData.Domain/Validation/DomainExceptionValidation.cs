@@ -1,6 +1,4 @@
-﻿
-
-namespace ControlPersonalData.Domain.Validation
+﻿namespace ControlPersonalData.Domain.Validation
 {
     /// <summary>
     /// The domain exception validation.
@@ -14,17 +12,14 @@ namespace ControlPersonalData.Domain.Validation
         public DomainExceptionValidation(string error) : base(error) { }
 
         /// <summary>
-        /// 
+        /// Validations
         /// </summary>
         /// <param name="hasError">If true, has error.</param>
         /// <param name="error">The error.</param>
         /// <exception cref="DomainExceptionValidation"></exception>
         public static void When(bool hasError, string error)
         {
-            if (hasError)
-            {
-                throw new DomainExceptionValidation(error);
-            }
+            if (hasError) throw new DomainExceptionValidation(error);
         }
     }
 }

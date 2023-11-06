@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ControlPersonalData.API.Models;
 using Microsoft.AspNetCore.Authorization;
-using ControlPersonalData.Domain.Entities;
-using ControlPersonalData.Application.Interfaces;
 using ControlPersonalData.Domain.Account;
+using ControlPersonalData.Domain.Entities;
 
 namespace ControlPersonalData.API.Controllers
 {
