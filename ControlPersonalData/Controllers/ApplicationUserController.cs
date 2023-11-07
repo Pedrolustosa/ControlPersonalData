@@ -34,9 +34,9 @@ namespace ControlPersonalData.Controllers
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
         [HttpGet("GetAllUsers")]
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetAll()
+        public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity)
         {
-            var result = await _applicationUserService.GetAll();
+            var result =  await _applicationUserService.GetAll(pageNumber, pageQuantity);
             return result;
         }
 
@@ -87,7 +87,6 @@ namespace ControlPersonalData.Controllers
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPut("UpdateUser")]
-        [AllowAnonymous]
         public async Task<ActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");

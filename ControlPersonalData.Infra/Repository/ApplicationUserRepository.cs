@@ -29,9 +29,9 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUser>> GetAll()
+        public async Task<List<ApplicationUser>> GetAll(int pageNumber, int pageQuantity)
         {
-           var allUsers = await _context.Users.ToListAsync();
+           var allUsers = await _context.Users.Skip((pageNumber -1) * pageQuantity).Take(pageQuantity).ToListAsync();
             return allUsers;
         }
 

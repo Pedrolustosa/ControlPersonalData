@@ -55,10 +55,10 @@ namespace ControlPersonalData.Infra.Data.Service
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetAll()
+        public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity)
         {
-            var applicationUser = await _userRepository.GetAll();
-            return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
+            var applicationUser = await _userRepository.GetAll(pageNumber, pageQuantity);
+            return _mapper.Map<List<ApplicationUserDTO>>(applicationUser);
         }
 
         /// <summary>

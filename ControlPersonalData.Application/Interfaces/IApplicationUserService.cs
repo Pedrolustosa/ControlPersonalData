@@ -11,7 +11,7 @@ namespace ControlPersonalData.Application.Interfaces
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        Task<IEnumerable<ApplicationUserFilterDTO>> GetAll();
+        Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity);
 
         /// <summary>
         /// Get the by id.
