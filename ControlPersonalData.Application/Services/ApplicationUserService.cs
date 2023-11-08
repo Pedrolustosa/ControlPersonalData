@@ -1,5 +1,16 @@
 ﻿using AutoMapper;
+using System.Data;
+using iText.Layout;
+using iText.Kernel.Pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Font;
+using iText.Kernel.Colors;
+using iText.Layout.Element;
+using System.Data.SqlClient;
+using iText.IO.Font.Constants;
+using iText.Layout.Properties;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Application.DTOs;
 using ControlPersonalData.Domain.Interfaces;
@@ -34,6 +45,11 @@ namespace ControlPersonalData.Infra.Data.Service
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// The configuration.
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationUserService"/> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
@@ -43,12 +59,14 @@ namespace ControlPersonalData.Infra.Data.Service
         public ApplicationUserService(UserManager<ApplicationUser> userManager,
                                    RoleManager<IdentityRole> roleManager,
                                    IApplicationUserRepository applicationUserRepository,
-                                   IMapper mapper)
+                                   IMapper mapper,
+                                   IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _userRepository = applicationUserRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -103,7 +121,7 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// 
+        /// Register user
         /// </summary>
         /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
@@ -144,6 +162,64 @@ namespace ControlPersonalData.Infra.Data.Service
             await _userManager.UpdateAsync(user);
             var userRetorno = await _userRepository.GetUserName(user.UserName);
             return _mapper.Map<ApplicationUserUpdateDTO>(userRetorno);
+        }
+
+        /// <summary>
+        /// Gets the personal data.
+        /// </summary>
+        /// <returns>A DataTable.</returns>
+        public DataTable GetPersonalData()
+        {
+            DataTable data = new();
+            using (SqlConnection connection = new(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                SqlCommand command = new(_userRepository.GetDataPDF(), connection);
+                SqlDataAdapter adapter = new(command);
+                adapter.Fill(data);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Export the to pdf.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="fileName">The file name.</param>
+        /// <returns>A string.</returns>
+        public string ExportToPdf(DataTable data, string fileName)
+        {
+            string filePath = System.IO.Path.Combine(@"C:\Users\pedro\Downloads", fileName + ".pdf");
+            PdfWriter writer = new(new FileStream(filePath, FileMode.Create));
+            PdfDocument pdf = new(writer);
+            Document document = new(pdf, PageSize.A4);
+            document.SetMargins(30, 30, 30, 30);
+            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+            Paragraph title = new Paragraph("List of Users").SetFont(font);
+            title.SetFontSize(24);
+            title.SetFontColor(ColorConstants.DARK_GRAY);
+            title.SetTextAlignment(TextAlignment.CENTER);
+            Table table = new(data.Columns.Count);
+            table.SetWidth(UnitValue.CreatePercentValue(100));
+            foreach (DataColumn column in data.Columns)
+            {
+                Cell cell = new Cell().Add(new Paragraph(column.ColumnName));
+                cell.SetTextAlignment(TextAlignment.CENTER);
+                cell.SetBackgroundColor(ColorConstants.WHITE);
+                table.AddHeaderCell(cell);
+            }
+            foreach (DataRow row in data.Rows)
+            {
+                foreach (object item in row.ItemArray)
+                {
+                    Cell cell = new Cell().Add(new Paragraph(item.ToString()));
+                    cell.SetTextAlignment(TextAlignment.CENTER);
+                    table.AddCell(cell);
+                }
+            }
+            document.Add(title);
+            document.Add(table);
+            document.Close();
+            return filePath;
         }
     }
 }

@@ -26,23 +26,6 @@ namespace ControlPersonalData.Domain.Entities
         {
             ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="userName">The user name.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="cPF">The c PF.</param>
-        /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
-        /// <param name="motherName">The mother name.</param>
-        /// <param name="status">If true, status.</param>
-        public void Update(string email, string userName, string phoneNumber,
-            string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
-        {
-            ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
-        }
 
         /// <summary>
         /// Validates the domain.

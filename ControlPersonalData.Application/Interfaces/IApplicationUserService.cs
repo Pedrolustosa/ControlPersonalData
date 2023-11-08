@@ -1,4 +1,5 @@
 ﻿using ControlPersonalData.Application.DTOs;
+using System.Data;
 
 namespace ControlPersonalData.Application.Interfaces
 {
@@ -57,5 +58,19 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <returns><![CDATA[A Task<ApplicationUserUpdateDTO>.]]></returns>
         Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO);
+
+        /// <summary>
+        /// Export the to pdf.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="fileName">The file name.</param>
+        /// <returns>A string.</returns>
+        string ExportToPdf(DataTable data, string fileName);
+
+        /// <summary>
+        /// Gets the personal data.
+        /// </summary>
+        /// <returns>A DataTable.</returns>
+        DataTable GetPersonalData();
     }
 }

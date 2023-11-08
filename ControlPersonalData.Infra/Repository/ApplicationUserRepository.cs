@@ -2,6 +2,7 @@
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Domain.Interfaces;
 using ControlPersonalData.Infra.Data.Context;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 #nullable disable
 namespace ControlPersonalData.Infra.Data.Repository
@@ -82,6 +83,16 @@ namespace ControlPersonalData.Infra.Data.Repository
                                                          u.MotherName == motherName || 
                                                          u.Status.Equals(status)).ToListAsync();
             return filterUsers;
+        }
+
+        /// <summary>
+        /// Gets the data PDF.
+        /// </summary>
+        /// <returns>A string.</returns>
+        public string GetDataPDF()
+        {
+            string query = @"SELECT Email, Name, CPF, Age, MotherName, PhoneNumber, Status FROM AspNetUsers";
+            return query;
         }
     }
 }
