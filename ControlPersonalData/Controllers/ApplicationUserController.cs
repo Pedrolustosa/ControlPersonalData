@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Data;
+using Microsoft.AspNetCore.Mvc;
 using ControlPersonalData.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ControlPersonalData.Application.DTOs;
@@ -36,7 +37,7 @@ namespace ControlPersonalData.Controllers
         [HttpGet("GetAllUsers")]
         public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity)
         {
-            var result =  await _applicationUserService.GetAll(pageNumber, pageQuantity);
+            var result = await _applicationUserService.GetAll(pageNumber, pageQuantity);
             return result;
         }
 
@@ -87,12 +88,25 @@ namespace ControlPersonalData.Controllers
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPut("UpdateUser")]
-        public async Task<ActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
+        public async Task<IActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
             var applicationUserUpdate = await _applicationUserService.UpdateAccount(applicationUserUpdateDTO);
             if (applicationUserUpdate is null) return NoContent();
             return Ok(new { email = applicationUserUpdate.Email });
+        }
+
+        /// <summary>
+        /// Gets the personal data.
+        /// </summary>
+        /// <returns>An ActionResult.</returns>
+        [HttpGet("PDF")]
+        public IActionResult GetPersonalData()
+        {
+            DataTable data = _applicationUserService.GetPersonalData();
+            string pdfPath = _applicationUserService.ExportToPdf(data, "ListUsers-" + DateTime.Now.ToString("dd-MM-yyyy"));
+            var pdfStream = System.IO.File.OpenRead(pdfPath);
+            return File(pdfStream, "application/pdf", "ListUsers-" + DateTime.Now.ToString("dd-MM-yyyy") + ".pdf");
         }
     }
 }

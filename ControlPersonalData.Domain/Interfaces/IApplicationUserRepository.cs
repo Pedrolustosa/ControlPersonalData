@@ -8,6 +8,12 @@ namespace ControlPersonalData.Domain.Interfaces
     public interface IApplicationUserRepository
     {
         /// <summary>
+        /// Gets the data PDF.
+        /// </summary>
+        /// <returns>A string.</returns>
+        string GetDataPDF();
+
+        /// <summary>
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
