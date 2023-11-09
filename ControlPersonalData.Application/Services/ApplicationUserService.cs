@@ -153,6 +153,7 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
             applicationUserUpdateDTO.Id = user.Id;
+            user.DateAlteration = DateTime.Now;
             _mapper.Map(applicationUserUpdateDTO, user);
             if (applicationUserUpdateDTO.Password != null)
             {

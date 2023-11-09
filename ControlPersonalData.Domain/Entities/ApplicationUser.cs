@@ -22,9 +22,9 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         public ApplicationUser(string email, string userName, string phoneNumber,
-            string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
+            string name, string cPF, DateTime birthDate, string motherName, bool status)
         {
-            ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, age, motherName, status);
+            ValidateDomain(email, userName, phoneNumber, name, cPF, birthDate, motherName, status);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         public void ValidateDomain(string email, string userName, string phoneNumber,
-            string name, string cPF, DateTime birthDate, string age, string motherName, bool status)
+            string name, string cPF, DateTime birthDate, string motherName, bool status)
         {
             DomainExceptionValidation.When(cPF.Length != 11, "CPF Incorrect!");
 
@@ -51,7 +51,6 @@ namespace ControlPersonalData.Domain.Entities
             CPF = cPF;
             BirthDate = birthDate;
             DateInsert = DateTime.Now;
-            Age = age;
             MotherName = motherName;
             Status = status;
         }
@@ -74,17 +73,12 @@ namespace ControlPersonalData.Domain.Entities
         /// <summary>
         /// Gets or Sets the date insert.
         /// </summary>
-        public DateTime DateInsert { get; private set; }
+        public DateTime DateInsert { get; set; }
 
         /// <summary>
         /// Gets or Sets the date alteration.
         /// </summary>
-        public DateTime DateAlteration { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets the age.
-        /// </summary>
-        public string Age { get; private set; }
+        public DateTime DateAlteration { get; set; }
 
         /// <summary>
         /// Gets or Sets the mother name.
