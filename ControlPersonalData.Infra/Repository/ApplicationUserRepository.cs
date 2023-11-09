@@ -78,8 +78,7 @@ namespace ControlPersonalData.Infra.Data.Repository
                                                          u.Name == name ||
                                                          u.PhoneNumber == phoneNumber || 
                                                          u.CPF == cPF || 
-                                                         u.BirthDate.ToString() == birthDate || 
-                                                         u.Age == age || 
+                                                         u.BirthDate.ToString() == birthDate ||
                                                          u.MotherName == motherName || 
                                                          u.Status.Equals(status)).ToListAsync();
             return filterUsers;
