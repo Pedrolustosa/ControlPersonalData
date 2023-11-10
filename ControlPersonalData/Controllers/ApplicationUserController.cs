@@ -54,12 +54,18 @@ namespace ControlPersonalData.Controllers
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
         [HttpGet("GetFilter")]
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
-                                                                           string cPF, string birthDate, string age, 
-                                                                           string motherName, bool status)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFilter([FromQuery] ApplicationUserFilterDTO applicationUserFilterDTO)
         {
-            var result = await _applicationUserService.GetFilter(email, name, phoneNumber, cPF, birthDate, age, motherName, status);
-            return result;
+            var result = await _applicationUserService.GetFilter(applicationUserFilterDTO.Email, 
+                applicationUserFilterDTO.Name, 
+                applicationUserFilterDTO.PhoneNumber,
+                applicationUserFilterDTO.CPF,
+                applicationUserFilterDTO.BirthDate.ToString(),
+                applicationUserFilterDTO.Age,
+                applicationUserFilterDTO.MotherName,
+                applicationUserFilterDTO.Status);
+            return Ok(new {Message = "Total Users: " + result.ToList().Count, Data = result});
         }
 
         /// <summary>
