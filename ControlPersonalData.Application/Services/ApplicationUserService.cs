@@ -97,7 +97,7 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
         public async Task<ApplicationUserDTO> GetUserName(string userName)
         {
-            var user = await _userRepository.GetUserName(userName) ?? throw new ArgumentNullException("This user not exits!");
+            var user = await _userRepository.GetUserName(userName) ?? throw new Exception("This user not exits!");
             var applicationUserDTO = _mapper.Map<ApplicationUserDTO>(user);
             return applicationUserDTO;
         }
@@ -130,17 +130,25 @@ namespace ControlPersonalData.Infra.Data.Service
         public async Task<bool> Register(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
         {
             var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
-            var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
-            if (userExist != null) throw new Exception("Email already exists.");
-            if (await _roleManager.RoleExistsAsync(role))
+            var isCPF = ValidateCPF(applicationUser.CPF);
+            if(isCPF)
             {
-                var result = await _userManager.CreateAsync(applicationUser, applicationUserRegisterDTO.Password);
-                if (!result.Succeeded) throw new Exception("Error!");
-                await _userManager.AddToRoleAsync(applicationUser, role);
-                return result.Succeeded;
+                var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
+                if (userExist != null) throw new Exception("Email already exists.");
+                if (await _roleManager.RoleExistsAsync(role))
+                {
+                    var result = await _userManager.CreateAsync(applicationUser, applicationUserRegisterDTO.Password);
+                    if (!result.Succeeded) throw new Exception("Error!");
+                    await _userManager.AddToRoleAsync(applicationUser, role);
+                    return result.Succeeded;
+                }
+                else
+                    throw new Exception("Please, choose a role for this user!");
             }
             else
-                throw new Exception("Please, choose a role for this user!");
+            {
+                throw new Exception("CPF Invalid");
+            }
         }
 
         /// <summary>
@@ -151,7 +159,7 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
         public async Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO) 
         {
-            var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
+            var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
             applicationUserUpdateDTO.Id = user.Id;
             user.DateAlteration = DateTime.Now;
             _mapper.Map(applicationUserUpdateDTO, user);
@@ -221,6 +229,44 @@ namespace ControlPersonalData.Infra.Data.Service
             document.Add(table);
             document.Close();
             return filePath;
+        }
+
+        /// <summary>
+        /// Checks if is CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        public bool ValidateCPF(string cpf)
+        {
+            int[] multiplier1 = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplier2 = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+
+            cpf = cpf.Trim().Replace(".", "").Replace("-", "");
+
+            if (cpf.Length != 11)
+                return false;
+
+            string tempCpf = cpf[..9];
+            int sum = 0;
+
+            for (int i = 0; i < 9; i++)
+                sum += int.Parse(tempCpf[i].ToString()) * multiplier1[i];
+
+            int remainder = sum % 11;
+            int firstCheckDigit = (remainder < 2) ? 0 : 11 - remainder;
+
+            tempCpf += firstCheckDigit.ToString();
+            sum = 0;
+
+            for (int i = 0; i < 10; i++)
+                sum += int.Parse(tempCpf[i].ToString()) * multiplier2[i];
+
+            remainder = sum % 11;
+            int secondCheckDigit = (remainder < 2) ? 0 : 11 - remainder;
+
+            string calculatedDigits = $"{firstCheckDigit}{secondCheckDigit}";
+
+            return cpf.EndsWith(calculatedDigits);
         }
     }
 }
