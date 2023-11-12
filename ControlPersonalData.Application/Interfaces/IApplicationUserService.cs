@@ -72,5 +72,12 @@ namespace ControlPersonalData.Application.Interfaces
         /// </summary>
         /// <returns>A DataTable.</returns>
         DataTable GetPersonalData();
+
+        /// <summary>
+        /// Validates CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+       bool ValidateCPF(string cpf);
     }
 }
