@@ -36,13 +36,11 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
-        /// <returns><![CDATA[A Task<IEnumerable<ApplicationUserFilterDTO>>.]]></returns>
+        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
         Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
-                                                              string cPF, string birthDate, string age, 
-                                                              string motherName, bool status);
+                                                              string cPF, string birthDate, string motherName, bool status);
 
         /// <summary>
         /// 
@@ -79,5 +77,12 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
        bool ValidateCPF(string cpf);
+
+        /// <summary>
+        /// Validates age.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        bool ValidateAge(DateTime age);
     }
 }
