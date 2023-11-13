@@ -71,8 +71,7 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         public async Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                                  string cPF, string birthDate, string age,
-                                                                  string motherName, bool status)
+                                                                  string cPF, string birthDate, string motherName, bool status)
         {
             var filterUsers = await _context.Users.Where(u => u.Email == email ||
                                                          u.Name == name ||

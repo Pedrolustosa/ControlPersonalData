@@ -114,9 +114,9 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string age, string motherName, bool status)
+        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string motherName, bool status)
         {
-            var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, age, motherName, status);
+            var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, motherName, status);
             return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
         }
 
@@ -131,7 +131,8 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
             var isCPF = ValidateCPF(applicationUser.CPF);
-            if(isCPF)
+            var age = ValidateAge(applicationUser.BirthDate);
+            if(isCPF && age)
             {
                 var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
                 if (userExist != null) throw new Exception("Email already exists.");
@@ -147,7 +148,7 @@ namespace ControlPersonalData.Infra.Data.Service
             }
             else
             {
-                throw new Exception("CPF Invalid");
+                throw new Exception("CPF or Age Invalid");
             }
         }
 
@@ -267,6 +268,18 @@ namespace ControlPersonalData.Infra.Data.Service
             string calculatedDigits = $"{firstCheckDigit}{secondCheckDigit}";
 
             return cpf.EndsWith(calculatedDigits);
+        }
+
+        /// <summary>
+        /// Validates age.
+        /// </summary>
+        /// <param name="age">The age.</param>
+        /// <returns>A bool.</returns>
+        public bool ValidateAge(DateTime age)
+        {
+            var actualYear = DateTime.Now.Year;
+            var ageUser = actualYear - age.Year;
+            return ageUser >= 18 ? true : false;
         }
     }
 }

@@ -43,11 +43,6 @@ namespace ControlPersonalData.Application.DTOs
         public DateTime BirthDate { get; set; }
 
         /// <summary>
-        /// Gets or Sets the age.
-        /// </summary>
-        public string Age { get; set; }
-
-        /// <summary>
         /// Gets or Sets the mother name.
         /// </summary>
         public string MotherName { get; set; }
