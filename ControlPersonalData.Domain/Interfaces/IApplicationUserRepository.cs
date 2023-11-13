@@ -1,5 +1,4 @@
 ﻿using ControlPersonalData.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace ControlPersonalData.Domain.Interfaces
 {
@@ -53,6 +52,6 @@ namespace ControlPersonalData.Domain.Interfaces
         /// </summary>
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
-        bool ExistThisCPF(string cpf);
+        bool ExistingCPF(string cpf);
     }
 }
