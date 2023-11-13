@@ -92,5 +92,15 @@ namespace ControlPersonalData.Infra.Data.Repository
             string query = @"SELECT Email, Name, CPF, Age, MotherName, PhoneNumber, Status FROM AspNetUsers";
             return query;
         }
+
+        /// <summary>
+        /// Exist this CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        public bool ExistThisCPF(string cpf)
+        {
+            return _context.Users.Any(u => u.CPF == cpf);
+        }
     }
 }

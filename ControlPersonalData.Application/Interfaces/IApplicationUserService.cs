@@ -84,5 +84,12 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
         bool ValidateAge(DateTime age);
+
+        /// <summary>
+        /// Exist this CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        bool ExistThisCPF(string cpf);
     }
 }
