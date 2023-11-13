@@ -1,4 +1,5 @@
 ﻿using ControlPersonalData.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace ControlPersonalData.Domain.Interfaces
 {
@@ -46,5 +47,12 @@ namespace ControlPersonalData.Domain.Interfaces
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
                                                      string cPF, string birthDate, string motherName, bool status);
+
+        /// <summary>
+        /// Exist this CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        bool ExistThisCPF(string cpf);
     }
 }

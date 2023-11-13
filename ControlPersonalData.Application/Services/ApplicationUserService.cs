@@ -131,8 +131,9 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
             var isCPF = ValidateCPF(applicationUser.CPF);
+            var existThisCPF = ExistThisCPF(applicationUser.CPF);
             var age = ValidateAge(applicationUser.BirthDate);
-            if(isCPF && age)
+            if(isCPF && age && !existThisCPF)
             {
                 var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
                 if (userExist != null) throw new Exception("Email already exists.");
@@ -280,6 +281,16 @@ namespace ControlPersonalData.Infra.Data.Service
             var actualYear = DateTime.Now.Year;
             var ageUser = actualYear - age.Year;
             return ageUser >= 18 ? true : false;
+        }
+
+        /// <summary>
+        /// Exist this CPF.
+        /// </summary>
+        /// <param name="cpf">The cpf.</param>
+        /// <returns>A bool.</returns>
+        public bool ExistThisCPF(string cpf)
+        {
+            return _userRepository.ExistThisCPF(cpf);
         }
     }
 }
