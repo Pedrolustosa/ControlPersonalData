@@ -2,7 +2,6 @@
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Domain.Interfaces;
 using ControlPersonalData.Infra.Data.Context;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 #nullable disable
 namespace ControlPersonalData.Infra.Data.Repository
@@ -98,7 +97,7 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// </summary>
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
-        public bool ExistThisCPF(string cpf)
+        public bool ExistingCPF(string cpf)
         {
             return _context.Users.Any(u => u.CPF == cpf);
         }

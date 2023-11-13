@@ -131,9 +131,8 @@ namespace ControlPersonalData.Infra.Data.Service
         {
             var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
             var isCPF = ValidateCPF(applicationUser.CPF);
-            var existThisCPF = ExistThisCPF(applicationUser.CPF);
-            var age = ValidateAge(applicationUser.BirthDate);
-            if(isCPF && age && !existThisCPF)
+            var existingCPF = ExistingCPF(applicationUser.CPF);
+            if (isCPF && !existingCPF)
             {
                 var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
                 if (userExist != null) throw new Exception("Email already exists.");
@@ -159,17 +158,18 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <exception cref="NotImplementedException"></exception>
         /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        public async Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO) 
+        public async Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
             applicationUserUpdateDTO.Id = user.Id;
             user.DateAlteration = DateTime.Now;
+            var existingCPF = ExistingCPF(applicationUserUpdateDTO.CPF);
             _mapper.Map(applicationUserUpdateDTO, user);
-            if (applicationUserUpdateDTO.Password != null)
+            if (existingCPF && applicationUserUpdateDTO.Password != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 await _userManager.ResetPasswordAsync(user, token, applicationUserUpdateDTO.Password);
-            } 
+            }
             await _userManager.UpdateAsync(user);
             var userRetorno = await _userRepository.GetUserName(user.UserName);
             return _mapper.Map<ApplicationUserUpdateDTO>(userRetorno);
@@ -272,25 +272,10 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Validates age.
-        /// </summary>
-        /// <param name="age">The age.</param>
-        /// <returns>A bool.</returns>
-        public bool ValidateAge(DateTime age)
-        {
-            var actualYear = DateTime.Now.Year;
-            var ageUser = actualYear - age.Year;
-            return ageUser >= 18 ? true : false;
-        }
-
-        /// <summary>
         /// Exist this CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
-        public bool ExistThisCPF(string cpf)
-        {
-            return _userRepository.ExistThisCPF(cpf);
-        }
+        public bool ExistingCPF(string cpf) { return _userRepository.ExistingCPF(cpf); }
     }
 }
