@@ -18,7 +18,6 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="name">The name.</param>
         /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         public ApplicationUser(string email, string userName, string phoneNumber,
@@ -36,7 +35,6 @@ namespace ControlPersonalData.Domain.Entities
         /// <param name="name">The name.</param>
         /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         public void ValidateDomain(string email, string userName, string phoneNumber,

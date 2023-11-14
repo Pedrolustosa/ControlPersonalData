@@ -29,44 +29,30 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// Gets the all.
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        public async Task<List<ApplicationUser>> GetAll(int pageNumber, int pageQuantity)
-        {
-           var allUsers = await _context.Users.Skip((pageNumber -1) * pageQuantity).Take(pageQuantity).ToListAsync();
-            return allUsers;
-        }
+        public async Task<List<ApplicationUser>> GetAll(int pageNumber, int pageQuantity) => await _context.Users.Skip((pageNumber -1) * pageQuantity)
+                                                                                                                 .Take(pageQuantity).ToListAsync();
+
 
         /// <summary>
         /// Gets the user name.
         /// </summary>
         /// <param name="userName">The user name.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        public async Task<ApplicationUser> GetUserName(string userName)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
-            return user;
-        }
+        public async Task<ApplicationUser> GetUserName(string userName) => await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
 
         /// <summary>
         /// Gets the status user.
         /// </summary>
         /// <param name="userName">The user name.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        public async Task<ApplicationUser> GetStatusUser(string userName)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
-            return user;
-        }
+        public async Task<ApplicationUser> GetStatusUser(string userName) => await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
 
         /// <summary>
         /// Get the by id.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        public async Task<ApplicationUser> GetById(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            return user;
-        }
+        public async Task<ApplicationUser> GetById(int id) => await _context.Users.FindAsync(id);
 
         /// <summary>
         /// Gets the filter.
@@ -83,34 +69,28 @@ namespace ControlPersonalData.Infra.Data.Repository
         public async Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
                                                                   string cPF, string birthDate, string motherName, bool status)
         {
-            var filterUsers = await _context.Users.Where(u => u.Email == email ||
-                                                         u.Name == name ||
-                                                         u.PhoneNumber == phoneNumber || 
-                                                         u.CPF == cPF || 
-                                                         u.BirthDate.ToString() == birthDate ||
-                                                         u.MotherName == motherName || 
-                                                         u.Status.Equals(status)).ToListAsync();
-            return filterUsers;
+            return await _context.Users.Where(u => u.Email == email ||
+                                                   u.Name == name ||
+                                                   u.PhoneNumber == phoneNumber || 
+                                                   u.CPF == cPF || 
+                                                   u.BirthDate.ToString() == birthDate ||
+                                                   u.MotherName == motherName || 
+                                                   u.Status.Equals(status)).ToListAsync();
         }
 
         /// <summary>
         /// Gets the data PDF.
         /// </summary>
         /// <returns>A string.</returns>
-        public string GetDataPDF()
-        {
-            string query = @"SELECT Email, Name, CPF, Age, MotherName, PhoneNumber, Status FROM AspNetUsers";
-            return query;
-        }
+        public string GetDataPDF() => @"SELECT Email, Name, CPF, Age, MotherName, PhoneNumber, Status FROM AspNetUsers";
+        
 
         /// <summary>
         /// Exist this CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
         /// <returns>A bool.</returns>
-        public bool ExistingCPF(string cpf)
-        {
-            return _context.Users.Any(u => u.CPF == cpf);
-        }
+        public bool ExistingCPF(string cpf) => _context.Users.Any(u => u.CPF == cpf);
+        
     }
 }
