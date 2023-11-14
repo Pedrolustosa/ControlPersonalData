@@ -16,10 +16,15 @@ namespace ControlPersonalData.Infra.Data.Identity
     /// </summary>
     public class AuthenticateService : IAuthenticateService
     {
+
         /// <summary>
         /// sign in manager.
         /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager;
+
+        /// <summary>
+        /// The user repository.
+        /// </summary>
         private readonly IApplicationUserRepository _userRepository;
 
         /// <summary>
@@ -30,9 +35,7 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticateService"/> class.
         /// </summary>
-        /// <param name="userManager">The user manager.</param>
         /// <param name="signInManager">The sign in manager.</param>
-        /// <param name="roleManager">The role manager.</param>
         /// <param name="configuration">The configuration.</param>
         public AuthenticateService(SignInManager<ApplicationUser> signInManager,
                                    IConfiguration configuration)
@@ -42,10 +45,11 @@ namespace ControlPersonalData.Infra.Data.Identity
         }
 
         /// <summary>
-        /// Login
+        /// 
         /// </summary>
-        /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <param name="password">The password.</param>
+        /// <exception cref="Exception"></exception>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         public async Task<bool> Authenticate(string userName, string password)
         {
@@ -61,8 +65,7 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <summary>
         /// Generates the token.
         /// </summary>
-        /// <param name="id">The id.</param>
-        /// <param name="email">The email.</param>
+        /// <param name="userName">The user name.</param>
         /// <returns>A string.</returns>
         public string GenerateToken(string userName)
         {

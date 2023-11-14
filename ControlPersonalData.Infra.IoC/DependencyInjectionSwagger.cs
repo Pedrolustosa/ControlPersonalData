@@ -27,7 +27,7 @@ namespace ControlPersonalData.Infra.IoC
                     {
                         Name = "Pedro Lustosa",
                         Email = "pedroeternalss@gmail.com",
-                        Url = new Uri("https://www.linkedin.com/in/pedro-henrique-lustosa-e-silva-29b827144/")
+                        Url = new Uri("https://www.linkedin.com/in/pedrolustosaengineer/")
                     }
                 });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -38,8 +38,8 @@ namespace ControlPersonalData.Infra.IoC
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     Description = @"JWT Authorization header using Bearer.
-                        Enter 'Bearer' [space] then put in your token.
-                        Example: 'Bearer 12345abcdef'",
+                                    Enter 'Bearer' [space] then put in your token.
+                                    Example: 'Bearer 12345abcdef'",
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {

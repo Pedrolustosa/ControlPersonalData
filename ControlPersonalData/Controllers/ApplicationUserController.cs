@@ -33,37 +33,29 @@ namespace ControlPersonalData.Controllers
         /// <summary>
         /// Gets the all.
         /// </summary>
-        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageQuantity">The page quantity.</param>
+        /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
         [HttpGet("GetAllUsers")]
-        public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity)
-        {
-            var result = await _applicationUserService.GetAll(pageNumber, pageQuantity);
-            return result;
-        }
+        public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity) => await _applicationUserService.GetAll(pageNumber, pageQuantity);
+
 
         /// <summary>
         /// Gets the filter.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        /// <param name="cPF">The c PF.</param>
-        /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
-        /// <param name="motherName">The mother name.</param>
-        /// <param name="status">If true, status.</param>
-        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
+        /// <param name="applicationUserFilterDTO">The application user filter DTO.</param>
+        /// <returns><![CDATA[A Task<IActionResult>.]]></returns>
         [HttpGet("GetFilter")]
         [AllowAnonymous]
         public async Task<IActionResult> GetFilter([FromQuery] ApplicationUserFilterDTO applicationUserFilterDTO)
         {
             var result = await _applicationUserService.GetFilter(applicationUserFilterDTO.Email, 
-                applicationUserFilterDTO.Name, 
-                applicationUserFilterDTO.PhoneNumber,
-                applicationUserFilterDTO.CPF,
-                applicationUserFilterDTO.BirthDate.ToString(),
-                applicationUserFilterDTO.MotherName,
-                applicationUserFilterDTO.Status);
+                                                                 applicationUserFilterDTO.Name, 
+                                                                 applicationUserFilterDTO.PhoneNumber,
+                                                                 applicationUserFilterDTO.CPF,
+                                                                 applicationUserFilterDTO.BirthDate.ToString(),
+                                                                 applicationUserFilterDTO.MotherName,
+                                                                 applicationUserFilterDTO.Status);
             return Ok(new {Message = "Total Users: " + result.ToList().Count, Data = result});
         }
 
@@ -95,7 +87,7 @@ namespace ControlPersonalData.Controllers
         [HttpPut("UpdateUser")]
         public async Task<IActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
-            _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new ArgumentNullException("This user not exits!");
+            _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
             var applicationUserUpdate = await _applicationUserService.UpdateAccount(applicationUserUpdateDTO);
             if (applicationUserUpdate is null) return NoContent();
             return Ok(new { email = applicationUserUpdate.Email });
