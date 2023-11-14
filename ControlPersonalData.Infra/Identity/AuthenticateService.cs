@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using ControlPersonalData.Domain.Account;
 using Microsoft.Extensions.Configuration;
 using ControlPersonalData.Domain.Entities;
+using ControlPersonalData.Domain.Interfaces;
 
 #nullable disable
 namespace ControlPersonalData.Infra.Data.Identity
@@ -19,6 +20,7 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// sign in manager.
         /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IApplicationUserRepository _userRepository;
 
         /// <summary>
         /// The configuration.
@@ -47,8 +49,13 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         public async Task<bool> Authenticate(string userName, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
-            return result.Succeeded;
+            var statusUser = await _userRepository.GetStatusUser(userName);
+            if(statusUser.Status)
+            {
+                var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
+                return result.Succeeded;
+            }
+            throw new Exception("USer Inactive!");
         }
 
         /// <summary>

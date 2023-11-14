@@ -47,6 +47,17 @@ namespace ControlPersonalData.Infra.Data.Repository
         }
 
         /// <summary>
+        /// Gets the status user.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        public async Task<ApplicationUser> GetStatusUser(string userName)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            return user;
+        }
+
+        /// <summary>
         /// Get the by id.
         /// </summary>
         /// <param name="id">The id.</param>

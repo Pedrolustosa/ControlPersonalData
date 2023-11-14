@@ -27,6 +27,13 @@ namespace ControlPersonalData.Domain.Interfaces
         Task<ApplicationUser> GetById(int id);
 
         /// <summary>
+        /// Gets the status user.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        Task<ApplicationUser> GetStatusUser(string userName);
+
+        /// <summary>
         /// Get the by email.
         /// </summary>
         /// <param name="userName">The email.</param>
