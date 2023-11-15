@@ -9,6 +9,13 @@ namespace ControlPersonalData.Domain.Entities
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
+
+        /// <summary>
+        /// For test unit
+        /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
+        /// </summary>
+        public ApplicationUser() { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
         /// </summary>
@@ -57,17 +64,17 @@ namespace ControlPersonalData.Domain.Entities
         /// <summary>
         /// Gets or Sets the name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets the CPF.
         /// </summary>
-        public string CPF { get; private set; }
+        public string CPF { get; set; }
 
         /// <summary>
         /// Gets or Sets the birth date.
         /// </summary>
-        public DateTime BirthDate { get; private set; }
+        public DateTime BirthDate { get; set; }
 
         /// <summary>
         /// Gets or Sets the date insert.
@@ -82,11 +89,11 @@ namespace ControlPersonalData.Domain.Entities
         /// <summary>
         /// Gets or Sets the mother name.
         /// </summary>
-        public string MotherName { get; private set; }
+        public string MotherName { get; set; }
 
         /// <summary>
         /// Gets or Sets a value indicating whether status.
         /// </summary>
-        public bool Status { get; private set; }
+        public bool Status { get; set; }
     }
 }
