@@ -8,16 +8,14 @@
   <table>
     <tr>
       <td>Linguagem (Language):</td>
-      <td><img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"></td>
-      <td><img src="https://img.shields.io/badge/JSON-5E5C5C?style=for-the-badge&logo=json&logoColor=white"></td>
+      <td>
+        <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white">
+        <img src="https://img.shields.io/badge/JSON-5E5C5C?style=for-the-badge&logo=json&logoColor=white">
+      </td>
     </tr>
     <tr>
       <td>Plataforma (Platform):</td>
       <td><img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white"></td>
-    </tr>
-    <tr>
-      <td>Autenticação (Authentication):</td>
-      <td><img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white"></td>
     </tr>
     <tr>
       <td>Arquitetura (Architecture):</td>
@@ -29,11 +27,17 @@
     </tr>
     <tr>
       <td>Autenticação e Autorização (Authentication and Authorization):</td>
-      <td><img src="https://img.shields.io/badge/Identity-333333?style=for-the-badge&logo=identity&logoColor=white"></td>
+      <td>
+        <img src="https://img.shields.io/badge/Identity-333333?style=for-the-badge&logo=identity&logoColor=white">
+        <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white">
+      </td>
     </tr>
     <tr>
       <td>Banco de Dados (Database):</td>
-      <td><img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white"></td>
+      <td>
+        <img src="https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white">
+        <img src="https://img.shields.io/badge/InMemory-blue?style=for-the-badge&logoColor=white">
+      </td>
     </tr>
     <tr>
       <td>Tipo de API (API Type):</td>
@@ -58,6 +62,14 @@
     <tr>
       <td>SO (Operating System):</td>
       <td><img src="https://img.shields.io/badge/Windows_11-0078d4?style=for-the-badge&logo=windows-11&logoColor=white"></td>
+    </tr>
+    <tr>
+      <td>Testes Unitários (Unit Tests)</td>
+      <td>
+        <img src="https://img.shields.io/badge/FakeItEasy-green?style=for-the-badge">
+        <img src="https://img.shields.io/badge/FluentAssertions-yellow?style=for-the-badge">
+        <img src="https://img.shields.io/badge/xUnit-red?style=for-the-badge">
+      </td>
     </tr>
   </table>
   
@@ -111,6 +123,7 @@
   - ControlPersonalData.Domain: Modelo de domínio, regras de negócio e interfaces
   - ControlPersonalData.Infra.Data: EF Core, Contexto, Configurações, Migrations e Repositório
   - ControlPersonalData.Infra.IoC: Injeção de dependência, registros dos serviços
+  - ControlPersonalData.Tests: Teste unitário
 
   ## Relacionamento e Dependências entre Projetos
   - ControlPersonalData.Domain: Não possui nenhuma dependência
@@ -118,6 +131,7 @@
   - ControlPersonalData.Infra.Data: Dependência com o Domain
   - ControlPersonalData.Infra.IoC: Dependência com o Domain, Application e Infra.Data
   - ControlPersonalData.API: Dependência com o Infra.IoC
+  - ControlPersonalData.Tests: Dependência com o Infra.Data e Domain
 </details>
 
 <details>
@@ -170,6 +184,7 @@
   - ControlPersonalData.Domain: Domain model, business rules, and interfaces
   - ControlPersonalData.Infra.Data: EF Core, Context, Configurations, Migrations, and Repository
   - ControlPersonalData.Infra.IoC: Dependency injection, service registrations
+  - ControlPersonalData.Tests: Unit test
 
   ## Relationships and Dependencies between Projects
   - ControlPersonalData.Domain: Has no dependencies
@@ -177,5 +192,6 @@
   - ControlPersonalData.Infra.Data: Dependency on the Domain
   - ControlPersonalData.Infra.IoC: Dependency on the Domain, Application, and Infra.Data
   - ControlPersonalData.API: Dependency on Infra.IoC
+  - ControlPersonalData.Tests: Dependency on Infra.Data and Domain
 </details>
 
