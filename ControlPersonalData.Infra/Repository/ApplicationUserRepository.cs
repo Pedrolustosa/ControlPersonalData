@@ -67,15 +67,14 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         public async Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                                  string cPF, string birthDate, string motherName, bool status)
+                                                                  string cPF, string birthDate, string motherName)
         {
             return await _context.Users.Where(u => u.Email == email ||
                                                    u.Name == name ||
                                                    u.PhoneNumber == phoneNumber || 
                                                    u.CPF == cPF || 
                                                    u.BirthDate.ToString() == birthDate ||
-                                                   u.MotherName == motherName || 
-                                                   u.Status.Equals(status)).ToListAsync();
+                                                   u.MotherName == motherName).ToListAsync();
         }
 
         /// <summary>

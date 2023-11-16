@@ -54,8 +54,7 @@ namespace ControlPersonalData.Controllers
                                                                  applicationUserFilterDTO.PhoneNumber,
                                                                  applicationUserFilterDTO.CPF,
                                                                  applicationUserFilterDTO.BirthDate.ToString(),
-                                                                 applicationUserFilterDTO.MotherName,
-                                                                 applicationUserFilterDTO.Status);
+                                                                 applicationUserFilterDTO.MotherName);
             return Ok(new {Message = "Total Users: " + result.ToList().Count, Data = result});
         }
 

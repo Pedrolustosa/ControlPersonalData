@@ -51,7 +51,7 @@ namespace ControlPersonalData.Tests.ContextTest
             return new ApplicationUser
             {
                 Id = Guid.NewGuid().ToString(),
-                Email = "testNewUpdate@test.com",
+                Email = "testNewUpdate" + GenerateRandomSequence(2) + "@test.com",
                 Name = "testNewUpdate",
                 CPF = GenerateRandomSequence(11),
                 BirthDate = new DateTime(1996, 10, 21),
