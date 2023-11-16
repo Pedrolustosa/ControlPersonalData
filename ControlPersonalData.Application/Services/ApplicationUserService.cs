@@ -114,9 +114,9 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <param name="motherName">The mother name.</param>
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string motherName, bool status)
+        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, string cPF, string birthDate, string motherName)
         {
-            var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, motherName, status);
+            var applicationUser = await _userRepository.GetFilter(email, name, phoneNumber, cPF, birthDate, motherName);
             return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
         }
 

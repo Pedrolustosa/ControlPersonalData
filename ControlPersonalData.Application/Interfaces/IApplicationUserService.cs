@@ -40,7 +40,7 @@ namespace ControlPersonalData.Application.Interfaces
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
         Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string phoneNumber, 
-                                                              string cPF, string birthDate, string motherName, bool status);
+                                                              string cPF, string birthDate, string motherName);
 
         /// <summary>
         /// 

@@ -52,7 +52,7 @@ namespace ControlPersonalData.Domain.Interfaces
         /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                     string cPF, string birthDate, string motherName, bool status);
+                                                     string cPF, string birthDate, string motherName);
 
         /// <summary>
         /// Exist this CPF.
