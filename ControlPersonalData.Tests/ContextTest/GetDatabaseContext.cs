@@ -59,12 +59,8 @@ namespace ControlPersonalData.Tests.ContextTest
                 DateAlteration = DateTime.Parse("2023-11-09 09:48:02.168"),
                 MotherName = "testNewUpdate",
                 Status = true,
-                UserName = "TEST",
-                NormalizedUserName = "TEST",
-                NormalizedEmail = "TESTNEWUPDATE@TEST.COM",
-                PasswordHash = "AQAAAAIAAYagAAAAEGl0gAZ6RRU0sm3KjqFZeUNFiCLhKjeFEKVAykaSvPvVs6lGQmUiaxVJrQUYDNH7yQ==",
-                SecurityStamp = "UF3J3IDAIYRYTI4BIMX7LEAYS5J3C7NE",
-                ConcurrencyStamp = "714e1329-abda-42c0-8ef2-06652c6b9637",
+                UserName = "TEST" + GenerateRandomSequence(1),
+                PasswordHash = "Test@2023",
                 PhoneNumber = GenerateRandomSequence(9),
             };
         }

@@ -38,9 +38,11 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="configuration">The configuration.</param>
         public AuthenticateService(SignInManager<ApplicationUser> signInManager,
+                                   IApplicationUserRepository userRepository,
                                    IConfiguration configuration)
         {
             _signInManager = signInManager;
+            _userRepository = userRepository;
             _configuration = configuration;
         }
 
@@ -53,8 +55,8 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         public async Task<bool> Authenticate(string userName, string password)
         {
-            var statusUser = await _userRepository.GetStatusUser(userName);
-            if(statusUser.Status)
+            var statusUser = _userRepository.GetStatusUser(userName);
+            if(statusUser)
             {
                 var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
                 return result.Succeeded;

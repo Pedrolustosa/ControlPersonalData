@@ -37,6 +37,7 @@ namespace ControlPersonalData.Controllers
         /// <param name="pageQuantity">The page quantity.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
         [HttpGet("GetAllUsers")]
+        [AllowAnonymous]
         public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity) => await _applicationUserService.GetAll(pageNumber, pageQuantity);
 
 
@@ -84,6 +85,7 @@ namespace ControlPersonalData.Controllers
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPut("UpdateUser")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
@@ -97,6 +99,7 @@ namespace ControlPersonalData.Controllers
         /// </summary>
         /// <returns>An ActionResult.</returns>
         [HttpGet("PDF")]
+        [AllowAnonymous]
         public IActionResult GetPersonalData()
         {
             DataTable data = _applicationUserService.GetPersonalData();

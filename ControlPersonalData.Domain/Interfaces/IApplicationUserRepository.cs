@@ -24,14 +24,14 @@ namespace ControlPersonalData.Domain.Interfaces
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        Task<ApplicationUser> GetById(int id);
+        Task<ApplicationUser> GetById(string id);
 
         /// <summary>
         /// Gets the status user.
         /// </summary>
         /// <param name="userName">The user name.</param>
-        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        Task<ApplicationUser> GetStatusUser(string userName);
+        /// <returns>A bool.</returns>
+        bool GetStatusUser(string userName);
 
         /// <summary>
         /// Get the by email.
@@ -49,10 +49,9 @@ namespace ControlPersonalData.Domain.Interfaces
         /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
         /// <param name="motherName">The mother name.</param>
-        /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                     string cPF, string birthDate, string motherName);
+        Task<List<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
+                                              string cPF, string birthDate, string motherName);
 
         /// <summary>
         /// Exist this CPF.
