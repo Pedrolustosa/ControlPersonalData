@@ -20,10 +20,7 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// Initializes a new instance of the <see cref="ApplicationUserRepository"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public ApplicationUserRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public ApplicationUserRepository(ApplicationDbContext context) => _context = context;
 
         /// <summary>
         /// Gets the all.
@@ -31,7 +28,6 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         public async Task<List<ApplicationUser>> GetAll(int pageNumber, int pageQuantity) => await _context.Users.Skip((pageNumber -1) * pageQuantity)
                                                                                                                  .Take(pageQuantity).ToListAsync();
-
 
         /// <summary>
         /// Gets the user name.
@@ -44,15 +40,15 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// Gets the status user.
         /// </summary>
         /// <param name="userName">The user name.</param>
-        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        public async Task<ApplicationUser> GetStatusUser(string userName) => await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+        /// <returns>A bool.</returns>
+        public bool GetStatusUser(string userName) => _context.Users.Any(x => x.UserName == userName && x.Status == true);
 
         /// <summary>
         /// Get the by id.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        public async Task<ApplicationUser> GetById(int id) => await _context.Users.FindAsync(id);
+        public async Task<ApplicationUser> GetById(string id) => await _context.Users.FindAsync(id);
 
         /// <summary>
         /// Gets the filter.
@@ -62,12 +58,10 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
-        /// <param name="age">The age.</param>
         /// <param name="motherName">The mother name.</param>
-        /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                                  string cPF, string birthDate, string motherName)
+        public async Task<List<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
+                                                           string cPF, string birthDate, string motherName)
         {
             return await _context.Users.Where(u => u.Email == email ||
                                                    u.Name == name ||

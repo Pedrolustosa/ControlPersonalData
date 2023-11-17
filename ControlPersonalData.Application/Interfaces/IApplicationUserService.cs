@@ -19,7 +19,7 @@ namespace ControlPersonalData.Application.Interfaces
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
-        Task<ApplicationUserDTO> GetById(int id);
+        Task<ApplicationUserDTO> GetById(string id);
 
         /// <summary>
         /// Gets the user by email.

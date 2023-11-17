@@ -84,7 +84,7 @@ namespace ControlPersonalData.Infra.Data.Service
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        public async Task<ApplicationUserDTO> GetById(int id)
+        public async Task<ApplicationUserDTO> GetById(string id)
         {
             var applicationUser = await _userRepository.GetById(id);
             return _mapper.Map<ApplicationUserDTO>(applicationUser);
