@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ControllerTest\**" />
+    <EmbeddedResource Remove="ControllerTest\**" />
+    <None Remove="ControllerTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="7.4.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.14" />
@@ -28,10 +34,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ControlPersonalData.Domain\ControlPersonalData.Domain.csproj" />
     <ProjectReference Include="..\ControlPersonalData.Infra\ControlPersonalData.Infra.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ControllerTest\" />
   </ItemGroup>
 
 </Project>
