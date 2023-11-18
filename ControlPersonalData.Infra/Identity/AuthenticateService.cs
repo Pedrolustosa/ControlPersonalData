@@ -61,7 +61,7 @@ namespace ControlPersonalData.Infra.Data.Identity
                 var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);
                 return result.Succeeded;
             }
-            throw new Exception("USer Inactive!");
+            throw new Exception("User Inactive!");
         }
 
         /// <summary>

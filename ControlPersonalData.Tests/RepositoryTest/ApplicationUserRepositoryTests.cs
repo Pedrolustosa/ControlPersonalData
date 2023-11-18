@@ -1,7 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Tests.ContextTest;
 using ControlPersonalData.Infra.Data.Repository;
 
@@ -19,7 +18,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         [Fact]
-        public async Task<List<ApplicationUser>> ApplicationUserRepository_GetAll_ReturnUsers()
+        public async Task ApplicationUserRepository_GetAll_ReturnUsers()
         {
             //Arrange
             int pageNumber = 1;
@@ -32,7 +31,6 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Assert
             result.Should().NotBeNull();
-            return result;
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
         [Fact]
-        public async Task<List<ApplicationUser>> ApplicationUsersRepository_GetFilter_ReturnUsers()
+        public async Task ApplicationUsersRepository_GetFilter_ReturnUsers()
         {
             //Arrange
             var dbContext = await GetDatabaseContext.GetDatabaseContexts();
@@ -48,15 +46,10 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Act
             var result = await applicationUserRepository.GetFilter(dbContext.Users.FirstOrDefaultAsync().Result.Email,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null,
-                                                                   null);
+                                                                   null, null, null, null, null);
 
             //Assert
             result.Should().NotBeNull();
-            return result;
         }
 
         /// <summary>
@@ -64,7 +57,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         [Fact]
-        public async Task<bool> ApplicationUsersRepository_GetStatusUser_ReturnUsers()
+        public async Task ApplicationUsersRepository_GetStatusUser_ReturnUsers()
         {
             //Arrange
             var dbContext = await GetDatabaseContext.GetDatabaseContexts();
@@ -75,7 +68,6 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Assert
             result.Should().BeTrue();
-            return result;
         }
 
         /// <summary>
@@ -83,7 +75,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
         [Fact]
-        public async Task<ApplicationUser> ApplicationUsersRepository_GetUserName_ReturnUsers()
+        public async Task ApplicationUsersRepository_GetUserName_ReturnUsers()
         {
             //Arrange
             var dbContext = await GetDatabaseContext.GetDatabaseContexts();
@@ -94,7 +86,6 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Assert
             result.Should().NotBeNull();
-            return result;
         }
 
         /// <summary>
@@ -102,7 +93,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
         [Fact]
-        public async Task<ApplicationUser> ApplicationUsersRepository_GetById_ReturnUsers()
+        public async Task ApplicationUsersRepository_GetById_ReturnUsers()
         {
             //Arrange
             var dbContext = await GetDatabaseContext.GetDatabaseContexts();
@@ -113,7 +104,6 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Assert
             result.Should().NotBeNull();
-            return result;
         }
 
         /// <summary>
@@ -121,7 +111,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
         /// </summary>
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         [Fact]
-        public async Task<bool> ApplicationUsersRepository_ExistingCPF_ReturnUsers()
+        public async Task ApplicationUsersRepository_ExistingCPF_ReturnUsers()
         {
             //Arrange
             var dbContext = await GetDatabaseContext.GetDatabaseContexts();
@@ -132,7 +122,6 @@ namespace ControlPersonalData.Tests.RepositoryTest
 
             //Assert
             result.Should().BeTrue();
-            return result;
         }
         #endregion
     }
