@@ -1,6 +1,6 @@
   # ControlPersonalData
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-  [![Version](https://img.shields.io/badge/Version-1.0-brightgreen)](https://github.com/seu-usuario/seu-projeto)
+  [![Version](https://img.shields.io/badge/Version-1.6-brightgreen)](https://github.com/seu-usuario/seu-projeto)
   [![Complete Project](https://img.shields.io/badge/Status-Complete%20Project-green)](https://github.com/seu-usuario/seu-projeto)
   ![Project Views](https://komarev.com/ghpvc/?username=seu-usuario&label=Project%20Views&color=brightgreen)
 
