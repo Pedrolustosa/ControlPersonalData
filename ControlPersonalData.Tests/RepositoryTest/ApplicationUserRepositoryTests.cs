@@ -45,8 +45,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
             var applicationUserRepository = new ApplicationUserRepository(dbContext);
 
             //Act
-            var result = await applicationUserRepository.GetFilter(dbContext.Users.FirstOrDefaultAsync().Result.Email,
-                                                                   null, null, null, null, null);
+            var result = await applicationUserRepository.GetFilter(dbContext.Users.FirstOrDefaultAsync().Result.Email, null, null, null);
 
             //Assert
             result.Should().NotBeNull();

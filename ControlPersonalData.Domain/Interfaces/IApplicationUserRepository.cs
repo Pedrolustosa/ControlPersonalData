@@ -45,13 +45,10 @@ namespace ControlPersonalData.Domain.Interfaces
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="name">The name.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
         /// <param name="motherName">The mother name.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        Task<List<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                              string cPF, string birthDate, string motherName);
+        Task<List<ApplicationUser>> GetFilter(string email, string name, string birthDate, string motherName);
 
         /// <summary>
         /// Exist this CPF.
