@@ -33,11 +33,8 @@ namespace ControlPersonalData.Application.Interfaces
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="name">The name.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
         /// <param name="motherName">The mother name.</param>
-        /// <param name="status">If true, status.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
         Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string birthDate, string motherName);
 
