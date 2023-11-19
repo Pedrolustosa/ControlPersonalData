@@ -59,7 +59,7 @@ namespace ControlPersonalData.Tests.ContextTest
                 DateAlteration = DateTime.Parse("2023-11-09 09:48:02.168"),
                 MotherName = "testNewUpdate",
                 Status = true,
-                UserName = "TEST" + GenerateRandomSequence(1),
+                UserName = "TEST" + GenerateRandomSequence(2),
                 PasswordHash = "Test@2023",
                 PhoneNumber = GenerateRandomSequence(9),
             };
