@@ -51,9 +51,7 @@ namespace ControlPersonalData.Controllers
         public async Task<IActionResult> GetFilter([FromQuery] ApplicationUserFilterDTO applicationUserFilterDTO)
         {
             var result = await _applicationUserService.GetFilter(applicationUserFilterDTO.Email, 
-                                                                 applicationUserFilterDTO.Name, 
-                                                                 applicationUserFilterDTO.PhoneNumber,
-                                                                 applicationUserFilterDTO.CPF,
+                                                                 applicationUserFilterDTO.Name,
                                                                  applicationUserFilterDTO.BirthDate.ToString(),
                                                                  applicationUserFilterDTO.MotherName);
             return Ok(new {Message = "Total Users: " + result.ToList().Count, Data = result});

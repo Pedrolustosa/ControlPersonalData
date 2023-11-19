@@ -55,18 +55,13 @@ namespace ControlPersonalData.Infra.Data.Repository
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="name">The name.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        /// <param name="cPF">The c PF.</param>
         /// <param name="birthDate">The birth date.</param>
         /// <param name="motherName">The mother name.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
-        public async Task<List<ApplicationUser>> GetFilter(string email, string name, string phoneNumber, 
-                                                           string cPF, string birthDate, string motherName)
+        public async Task<List<ApplicationUser>> GetFilter(string email, string name, string birthDate, string motherName)
         {
             return await _context.Users.Where(u => u.Email == email ||
                                                    u.Name == name ||
-                                                   u.PhoneNumber == phoneNumber || 
-                                                   u.CPF == cPF || 
                                                    u.BirthDate.ToString() == birthDate ||
                                                    u.MotherName == motherName).ToListAsync();
         }
