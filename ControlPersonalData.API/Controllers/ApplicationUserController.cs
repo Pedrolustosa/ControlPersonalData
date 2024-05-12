@@ -11,24 +11,19 @@ namespace ControlPersonalData.Controllers
     /// <summary>
     /// The application user controller.
     /// </summary>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ApplicationUserController"/> class.
+    /// </remarks>
+    /// <param name="applicationUserService">The application user service.</param>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ApplicationUserController : ControllerBase
+    public class ApplicationUserController(IApplicationUserService applicationUserService) : ControllerBase
     {
         /// <summary>
         /// The application user service.
         /// </summary>
-        private readonly IApplicationUserService _applicationUserService;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationUserController"/> class.
-        /// </summary>
-        /// <param name="applicationUserService">The application user service.</param>
-        public ApplicationUserController(IApplicationUserService applicationUserService)
-        {
-            _applicationUserService = applicationUserService;
-        }
+        private readonly IApplicationUserService _applicationUserService = applicationUserService;
 
         /// <summary>
         /// Gets the all.
@@ -101,9 +96,9 @@ namespace ControlPersonalData.Controllers
         public IActionResult GetPersonalData()
         {
             DataTable data = _applicationUserService.GetPersonalData();
-            string pdfPath = _applicationUserService.ExportToPdf(data, "ListUsers-" + DateTime.Now.ToString("dd-MM-yyyy"));
+            string pdfPath = _applicationUserService.ExportToPdf(data, "ListUsers-" + DateTime.Now.ToString("d"));
             var pdfStream = System.IO.File.OpenRead(pdfPath);
-            return File(pdfStream, "application/pdf", "ListUsers-" + DateTime.Now.ToString("dd-MM-yyyy") + ".pdf");
+            return File(pdfStream, "application/pdf", "ListUsers-" + DateTime.Now.ToString("d") + ".pdf");
         }
     }
 }

@@ -14,37 +14,30 @@ namespace ControlPersonalData.Infra.Data.Identity
     /// <summary>
     /// The authenticate service.
     /// </summary>
-    public class AuthenticateService : IAuthenticateService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="AuthenticateService"/> class.
+    /// </remarks>
+    /// <param name="signInManager">The sign in manager.</param>
+    /// <param name="configuration">The configuration.</param>
+    public class AuthenticateService(SignInManager<ApplicationUser> signInManager,
+                               IApplicationUserRepository userRepository,
+                               IConfiguration configuration) : IAuthenticateService
     {
 
         /// <summary>
         /// sign in manager.
         /// </summary>
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
 
         /// <summary>
         /// The user repository.
         /// </summary>
-        private readonly IApplicationUserRepository _userRepository;
+        private readonly IApplicationUserRepository _userRepository = userRepository;
 
         /// <summary>
         /// The configuration.
         /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AuthenticateService"/> class.
-        /// </summary>
-        /// <param name="signInManager">The sign in manager.</param>
-        /// <param name="configuration">The configuration.</param>
-        public AuthenticateService(SignInManager<ApplicationUser> signInManager,
-                                   IApplicationUserRepository userRepository,
-                                   IConfiguration configuration)
-        {
-            _signInManager = signInManager;
-            _userRepository = userRepository;
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         /// <summary>
         /// 
