@@ -9,18 +9,16 @@ namespace ControlPersonalData.Infra.Data.Repository
     /// <summary>
     /// The application user repository.
     /// </summary>
-    public class ApplicationUserRepository : IApplicationUserRepository
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ApplicationUserRepository"/> class.
+    /// </remarks>
+    /// <param name="context">The context.</param>
+    public class ApplicationUserRepository(ApplicationDbContext context) : IApplicationUserRepository
     {
         /// <summary>
         /// The context.
         /// </summary>
-        private readonly ApplicationDbContext _context;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationUserRepository"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        public ApplicationUserRepository(ApplicationDbContext context) => _context = context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary>
         /// Gets the all.

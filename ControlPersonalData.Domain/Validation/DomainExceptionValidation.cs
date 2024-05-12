@@ -3,13 +3,12 @@
     /// <summary>
     /// The domain exception validation.
     /// </summary>
-    public class DomainExceptionValidation : Exception
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="DomainExceptionValidation"/> class.
+    /// </remarks>
+    /// <param name="error">The error.</param>
+    public class DomainExceptionValidation(string error) : Exception(error)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DomainExceptionValidation"/> class.
-        /// </summary>
-        /// <param name="error">The error.</param>
-        public DomainExceptionValidation(string error) : base(error) { }
 
         /// <summary>
         /// Validations

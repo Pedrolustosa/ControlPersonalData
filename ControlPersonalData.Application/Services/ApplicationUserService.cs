@@ -22,52 +22,43 @@ namespace ControlPersonalData.Infra.Data.Service
     /// <summary>
     /// The authenticate service.
     /// </summary>
-    public class ApplicationUserService : IApplicationUserService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ApplicationUserService"/> class.
+    /// </remarks>
+    /// <param name="userManager">The user manager.</param>
+    /// <param name="roleManager">The role manager.</param>
+    /// <param name="applicationUserRepository">The application user repository.</param>
+    /// <param name="mapper">The mapper.</param>
+    public class ApplicationUserService(UserManager<ApplicationUser> userManager,
+                               RoleManager<IdentityRole> roleManager,
+                               IApplicationUserRepository applicationUserRepository,
+                               IMapper mapper,
+                               IConfiguration configuration) : IApplicationUserService
     {
         /// <summary>
         /// The user manager.
         /// </summary>
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         /// <summary>
         /// The role manager.
         /// </summary>
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
         /// <summary>
         /// The user repository.
         /// </summary>
-        private readonly IApplicationUserRepository _userRepository;
+        private readonly IApplicationUserRepository _userRepository = applicationUserRepository;
 
         /// <summary>
         /// The mapper.
         /// </summary>
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper = mapper;
 
         /// <summary>
         /// The configuration.
         /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationUserService"/> class.
-        /// </summary>
-        /// <param name="userManager">The user manager.</param>
-        /// <param name="roleManager">The role manager.</param>
-        /// <param name="applicationUserRepository">The application user repository.</param>
-        /// <param name="mapper">The mapper.</param>
-        public ApplicationUserService(UserManager<ApplicationUser> userManager,
-                                   RoleManager<IdentityRole> roleManager,
-                                   IApplicationUserRepository applicationUserRepository,
-                                   IMapper mapper,
-                                   IConfiguration configuration)
-        {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _userRepository = applicationUserRepository;
-            _mapper = mapper;
-            _configuration = configuration;
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         /// <summary>
         /// Gets the all.
@@ -236,8 +227,8 @@ namespace ControlPersonalData.Infra.Data.Service
         /// <returns>A bool.</returns>
         public bool ValidateCPF(string cpf)
         {
-            int[] multiplier1 = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplier2 = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplier1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+            int[] multiplier2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
 
             cpf = cpf.Trim().Replace(".", "").Replace("-", "");
 

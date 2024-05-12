@@ -7,13 +7,12 @@ namespace ControlPersonalData.Infra.Data.Context
     /// <summary>
     /// The application db context.
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+    /// </remarks>
+    /// <param name="options">The options.</param>
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
-        /// </summary>
-        /// <param name="options">The options.</param>
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         /// <summary>
         /// On model creating.

@@ -9,24 +9,19 @@ namespace ControlPersonalData.API.Controllers
     /// <summary>
     /// The authenticate controller.
     /// </summary>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="AuthenticateController"/> class.
+    /// </remarks>
+    /// <param name="authentication">The authentication.</param>
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticateController : ControllerBase
+    public class AuthenticateController(IAuthenticateService authentication) : ControllerBase
     {
         /// <summary>
         /// The authentication.
         /// </summary>
-        private readonly IAuthenticateService _authentication;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AuthenticateController"/> class.
-        /// </summary>
-        /// <param name="authentication">The authentication.</param>
-        public AuthenticateController(IAuthenticateService authentication)
-        {
-            _authentication = authentication;
-        }
+        private readonly IAuthenticateService _authentication = authentication;
 
         /// <summary>
         /// Authenticates a <see cref="UserToken"/>.
