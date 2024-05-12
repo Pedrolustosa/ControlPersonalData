@@ -73,70 +73,6 @@
     </tr>
   </table>
   
-<details>
-  <summary><strong><a href="#versao-em-portugues">Versão em Português</a></strong></summary>
-  <h2 id="versao-em-portugues">Versão em Português</h2>
-
-  ## Descrição
-  O Sistema de Controle de Dados de Usuários é uma aplicação que permite gerenciar informações de usuários de forma eficiente e segura. Ele oferece diversas funcionalidades para facilitar o gerenciamento de dados, tornando-o uma solução poderosa para       empresas e organizações que precisam controlar informações de usuários de maneira organizada e acessível.
-
-  ## Funcionalidades Principais
-  - Cadastro de Usuários: Os administradores podem adicionar novos usuários ao sistema, fornecendo informações essenciais, como nome, sobrenome, endereço de e-mail, número de telefone, etc.
-  - Autenticação de Usuários: Para realizar qualquer modificação nos dados, é necessário fazer login, garantindo a segurança das informações.
-  - Busca de Dados: Os usuários podem buscar informações específicas no banco de dados, permitindo uma recuperação rápida e precisa das informações desejadas.
-  - Filtragem Avançada: O sistema oferece opções de filtragem avançada para refinar os resultados da busca, como datas de registro, categorias de usuários, etc.
-  - Atualização de Dados: Os administradores podem atualizar informações de usuários, garantindo que os dados permaneçam sempre precisos.
-  - Geração de PDF: Uma funcionalidade poderosa é a capacidade de gerar relatórios em formato PDF contendo os dados dos usuários, facilitando o compartilhamento e a impressão de informações importantes.
-
-  ## Como Começar
-  - Para começar a usar o Sistema de Controle de Dados de Usuários, siga estas etapas:
-  - Clone o repositório ou faça o download do projeto.
-  - Instale as dependências necessárias usando [Inserir instruções de instalação de dependências].
-  - Configure o banco de dados com as informações apropriadas.
-  - Inicie o servidor da aplicação usando [Inserir comando de inicialização].
-  - Acesse o sistema no seu navegador e comece a explorar as funcionalidades.
-
-  ## Arquitetura Limpa
-  Arquitetura limpa é um conceito proposto por Robert C. Martin, em seu livro "Clean Architecture", como uma forma de construir soluções de software altamente flexíveis e sustentáveis. O conceito é baseado em boas práticas de arquitetura hexagonal e 
-  cebola, entre outras, que já propunham a separação de responsabilidades em camadas e tem como objetivo produzir sistemas com as seguintes características:
-  - Independente de framework
-  - Testáveis
-  - Independentes da interface do usuário
-  - Independentes do banco de dados
-  - Independentes de qualquer agente externo
-    
-  ### Sobre Clean Architecture e suas responsabilidades
-  - Domínio (Domain):
-    Essa camada é responsável por todas as suas entidades, enumerações, exceções, abstrações (interfaces por exemplo), tipos e lógicas específicas ao seu domínio.
-  - Aplicação (Application):
-    Essa camada é responsável por toda lógica da sua aplicação. Ela depende da camada de domínio mas não tem dependência com nenhuma outra camada ou projeto. Essa camada descreve abstrações que são implementadas nas camadas de fora.
-    Se por acaso você precisar implementar um acesso a dados, por exemplo o Entity Framework, essa implementação ficaria fora dessa camada (em infraestrutura), porém a abstração seria implementada aqui.
-  - Infraestrutura (Infrastructure):
-    Essa camada é responsável por conter classes que acessem recursos externos a nossa aplicação, como por exemplo web services, emails ou até mesmo acesso a disco. Essas classes devem implementar abstrações da camada de aplicação.
-  - Interface de Usuário (UI):
-    Essa camada é responsável pela interface de usuário, no caso desse projeto temos um exemplo simples utilizando Angular 8 e ASP.NET Core 3. Essa camada depende da aplicação e infraestrutura porém toda dependência que vier de infraestrutura é apenas 
-    para consumir injeção de dependências.
-
-  ## Projetos
-  - ControlPersonalData.API: Controllers, Models
-  - ControlPersonalData.Application: Regras de domínio da aplicação, mapeamentos, serviços, DTOs
-  - ControlPersonalData.Domain: Modelo de domínio, regras de negócio e interfaces
-  - ControlPersonalData.Infra.Data: EF Core, Contexto, Configurações, Migrations e Repositório
-  - ControlPersonalData.Infra.IoC: Injeção de dependência, registros dos serviços
-  - ControlPersonalData.Tests: Teste unitário
-
-  ## Relacionamento e Dependências entre Projetos
-  - ControlPersonalData.Domain: Não possui nenhuma dependência
-  - ControlPersonalData.Application: Dependência com o Domain
-  - ControlPersonalData.Infra.Data: Dependência com o Domain
-  - ControlPersonalData.Infra.IoC: Dependência com o Domain, Application e Infra.Data
-  - ControlPersonalData.API: Dependência com o Infra.IoC
-  - ControlPersonalData.Tests: Dependência com o Infra.Data e Domain
-</details>
-
-<details>
-  <summary><strong><a href="#english-version">English Version</a></strong></summary>
-  <h2 id="english-version">English Version</h2>
 
   ## Description
   The User Data Control System is an application that allows efficient and secure management of user information. It offers various features to facilitate data management, making it a powerful solution for companies and organizations that need to control   user information in an organized and accessible manner.
@@ -193,5 +129,3 @@
   - ControlPersonalData.Infra.IoC: Dependency on the Domain, Application, and Infra.Data
   - ControlPersonalData.API: Dependency on Infra.IoC
   - ControlPersonalData.Tests: Dependency on Infra.Data and Domain
-</details>
-
