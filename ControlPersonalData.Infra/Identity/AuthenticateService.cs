@@ -48,7 +48,7 @@ namespace ControlPersonalData.Infra.Data.Identity
         /// <returns><![CDATA[A Task<bool>.]]></returns>
         public async Task<bool> Authenticate(string userName, string password)
         {
-            var statusUser = _userRepository.GetStatusUser(userName);
+            var statusUser = await _userRepository.GetStatusUser(userName);
             if(statusUser)
             {
                 var result = await _signInManager.PasswordSignInAsync(userName, password, false, lockoutOnFailure: false);

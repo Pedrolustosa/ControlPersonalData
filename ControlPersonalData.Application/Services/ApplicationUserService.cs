@@ -2,38 +2,31 @@
 using System.Data;
 using iText.Layout;
 using iText.Kernel.Pdf;
-using iText.Kernel.Geom;
 using iText.Kernel.Font;
+using iText.Kernel.Geom;
 using iText.Kernel.Colors;
 using iText.Layout.Element;
-using System.Data.SqlClient;
 using iText.IO.Font.Constants;
 using iText.Layout.Properties;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Application.DTOs;
 using ControlPersonalData.Domain.Interfaces;
 using ControlPersonalData.Application.Interfaces;
 
-#nullable disable
 namespace ControlPersonalData.Infra.Data.Service
 {
     /// <summary>
-    /// The authenticate service.
+    /// The application user service.
     /// </summary>
-    /// <remarks>
-    /// Initializes a new instance of the <see cref="ApplicationUserService"/> class.
-    /// </remarks>
     /// <param name="userManager">The user manager.</param>
     /// <param name="roleManager">The role manager.</param>
     /// <param name="applicationUserRepository">The application user repository.</param>
     /// <param name="mapper">The mapper.</param>
     public class ApplicationUserService(UserManager<ApplicationUser> userManager,
-                               RoleManager<IdentityRole> roleManager,
-                               IApplicationUserRepository applicationUserRepository,
-                               IMapper mapper,
-                               IConfiguration configuration) : IApplicationUserService
+                                        RoleManager<IdentityRole> roleManager,
+                                        IApplicationUserRepository applicationUserRepository,
+                                        IMapper mapper) : IApplicationUserService
     {
         /// <summary>
         /// The user manager.
@@ -54,11 +47,6 @@ namespace ControlPersonalData.Infra.Data.Service
         /// The mapper.
         /// </summary>
         private readonly IMapper _mapper = mapper;
-
-        /// <summary>
-        /// The configuration.
-        /// </summary>
-        private readonly IConfiguration _configuration = configuration;
 
         /// <summary>
         /// Gets the all.
@@ -89,36 +77,35 @@ namespace ControlPersonalData.Infra.Data.Service
         public async Task<ApplicationUserDTO> GetUserName(string userName)
         {
             var user = await _userRepository.GetUserName(userName) ?? throw new Exception("This user not exits!");
-            var applicationUserDTO = _mapper.Map<ApplicationUserDTO>(user);
-            return applicationUserDTO;
+            return _mapper.Map<ApplicationUserDTO>(user);
         }
 
         /// <summary>
-        /// Gets the filter.
+        /// Filters and return a task of a list of applicationuserfilterdtos.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="birthDate">The birth date.</param>
-        /// <param name="motherName">The mother name.</param>
-        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
-        public async Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string birthDate, string motherName)
+        /// <param name="applicationUserFilterDTO">The application user filter DTO.</param>
+        /// <returns><![CDATA[Task<IEnumerable<ApplicationUserFilterDTO>>]]></returns>
+        public async Task<IEnumerable<ApplicationUserFilterDTO>> Filter(ApplicationUserFilterDTO applicationUserFilterDTO)
         {
-            var applicationUser = await _userRepository.GetFilter(email, name, birthDate, motherName);
+            var applicationUser = await _userRepository.GetFilter(applicationUserFilterDTO.Email, 
+                                                                  applicationUserFilterDTO.Name, 
+                                                                  nameof(applicationUserFilterDTO.BirthDate), 
+                                                                  applicationUserFilterDTO.MotherName);
             return _mapper.Map<IEnumerable<ApplicationUserFilterDTO>>(applicationUser);
         }
 
         /// <summary>
-        /// Register user
+        /// Post and return a task of type bool.
         /// </summary>
         /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
         /// <exception cref="Exception"></exception>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        public async Task<bool> Register(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        public async Task<bool> Post(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
         {
             var applicationUser = _mapper.Map<ApplicationUser>(applicationUserRegisterDTO);
-            var isCPF = ValidateCPF(applicationUser.CPF);
-            var existingCPF = ExistingCPF(applicationUser.CPF);
+            var isCPF = await ValidateCPF(applicationUser.CPF);
+            var existingCPF = await ExistingCPF(applicationUser.CPF);
             if (isCPF && !existingCPF)
             {
                 var userExist = await _userManager.FindByEmailAsync(applicationUser.Email);
@@ -140,17 +127,17 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Updates the account.
+        /// Update and return a task of type applicationuserupdatedto.
         /// </summary>
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        /// <returns><![CDATA[A Task<ApplicationUserDTO>.]]></returns>
-        public async Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO)
+        /// <exception cref="Exception"></exception>
+        /// <returns><![CDATA[Task<ApplicationUserUpdateDTO>]]></returns>
+        public async Task<ApplicationUserUpdateDTO> Update(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             var user = await _userRepository.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
             applicationUserUpdateDTO.Id = user.Id;
             user.DateAlteration = DateTime.Now;
-            var existingCPF = ExistingCPF(applicationUserUpdateDTO.CPF);
+            var existingCPF = await ExistingCPF(applicationUserUpdateDTO.CPF);
             _mapper.Map(applicationUserUpdateDTO, user);
             if (existingCPF && applicationUserUpdateDTO.Password != null)
             {
@@ -163,69 +150,113 @@ namespace ControlPersonalData.Infra.Data.Service
         }
 
         /// <summary>
-        /// Gets the personal data.
+        /// Get personal data.
         /// </summary>
-        /// <returns>A DataTable.</returns>
-        public DataTable GetPersonalData()
+        /// <returns><![CDATA[Task<DataTable>]]></returns>
+        public async Task<DataTable> GetPersonalData()
         {
-            DataTable data = new();
-            using (SqlConnection connection = new(_configuration.GetConnectionString("DefaultConnection")))
-            {
-                SqlCommand command = new(_userRepository.GetDataPDF(), connection);
-                SqlDataAdapter adapter = new(command);
-                adapter.Fill(data);
-            }
-            return data;
+            List<ApplicationUser> users = await _userRepository.GetDataPDF();
+            var usersDTO = _mapper.Map<List<ApplicationUserDTO>>(users);
+            return ConvertToDataTable(usersDTO);
         }
 
         /// <summary>
-        /// Export the to pdf.
+        /// Convert converts to data table.
         /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="fileName">The file name.</param>
-        /// <returns>A string.</returns>
-        public string ExportToPdf(DataTable data, string fileName)
+        /// <param name="users">The users.</param>
+        /// <returns>A DataTable</returns>
+        private static DataTable ConvertToDataTable(List<ApplicationUserDTO> users)
         {
-            string filePath = System.IO.Path.Combine(@"C:\Users\pedro\Downloads", fileName + ".pdf");
-            PdfWriter writer = new(new FileStream(filePath, FileMode.Create));
-            PdfDocument pdf = new(writer);
-            Document document = new(pdf, PageSize.A4);
-            document.SetMargins(30, 30, 30, 30);
-            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
-            Paragraph title = new Paragraph("List of Users").SetFont(font);
-            title.SetFontSize(24);
-            title.SetFontColor(ColorConstants.DARK_GRAY);
-            title.SetTextAlignment(TextAlignment.CENTER);
-            Table table = new(data.Columns.Count);
-            table.SetWidth(UnitValue.CreatePercentValue(100));
-            foreach (DataColumn column in data.Columns)
+            DataTable table = new();
+            table.Columns.Add("Email", typeof(string));
+            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("CPF", typeof(string));
+            table.Columns.Add("MotherName", typeof(string));
+            table.Columns.Add("PhoneNumber", typeof(string));
+            table.Columns.Add("Status", typeof(string));
+            foreach (var user in users)
             {
-                Cell cell = new Cell().Add(new Paragraph(column.ColumnName));
-                cell.SetTextAlignment(TextAlignment.CENTER);
-                cell.SetBackgroundColor(ColorConstants.WHITE);
-                table.AddHeaderCell(cell);
+                table.Rows.Add(user.Email, user.Name, user.CPF, user.MotherName, user.PhoneNumber, user.Status);
             }
-            foreach (DataRow row in data.Rows)
+            return table;
+        }
+
+        /// <summary>
+        /// Export converts to pdf.
+        /// </summary>
+        /// <returns><![CDATA[Task<string>]]></returns>
+        public async Task<string> ExportToPdf()
+        {
+            var data = await GetPersonalData();
+            string fileName = "ListUsers-" + DateTime.Now.ToString("d");
+            string filePath = System.IO.Path.Combine(@"C:\Users\pedro\Downloads", $"{fileName}.pdf");
+            using (PdfWriter writer = new(new FileStream(filePath, FileMode.Create)))
             {
-                foreach (object item in row.ItemArray)
-                {
-                    Cell cell = new Cell().Add(new Paragraph(item.ToString()));
-                    cell.SetTextAlignment(TextAlignment.CENTER);
-                    table.AddCell(cell);
-                }
+                PdfDocument pdf = new(writer);
+                Document document = new(pdf, PageSize.A4);
+                document.SetMargins(30, 30, 30, 30);
+                PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+                Paragraph title = new Paragraph("List of Users")
+                    .SetFont(font)
+                    .SetFontSize(24)
+                    .SetFontColor(ColorConstants.DARK_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER);
+                document.Add(title);
+                Table table = new Table(data.Columns.Count)
+                    .SetWidth(UnitValue.CreatePercentValue(100));
+                // Add table headers
+                AddColumn(data, table);
+                // Add table data
+                AddRows(data, table);
+                document.Add(table);
+                document.Close();
             }
-            document.Add(title);
-            document.Add(table);
-            document.Close();
             return filePath;
         }
 
         /// <summary>
-        /// Checks if is CPF.
+        /// Add the column.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="table">The table.</param>
+        private static void AddColumn(DataTable data, Table table)
+        {
+            foreach (DataColumn column in data.Columns)
+            {
+                Cell cell = new Cell()
+                    .Add(new Paragraph(column.ColumnName))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+                table.AddHeaderCell(cell);
+            }
+        }
+
+        /// <summary>
+        /// Add the rows.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="table">The table.</param>
+        private static void AddRows(DataTable data, Table table)
+        {
+            foreach (DataRow row in data.Rows)
+            {
+                foreach (var cell in from object item in row.ItemArray
+                                     let cell = new Cell()
+                                        .Add(new Paragraph(item.ToString()))
+                                        .SetTextAlignment(TextAlignment.CENTER)
+                                     select cell)
+                {
+                    table.AddCell(cell);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validate CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
-        /// <returns>A bool.</returns>
-        public bool ValidateCPF(string cpf)
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        public async Task<bool> ValidateCPF(string cpf)
         {
             int[] multiplier1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
             int[] multiplier2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
@@ -233,7 +264,7 @@ namespace ControlPersonalData.Infra.Data.Service
             cpf = cpf.Trim().Replace(".", "").Replace("-", "");
 
             if (cpf.Length != 11)
-                return false;
+                return await Task.FromResult(false);
 
             string tempCpf = cpf[..9];
             int sum = 0;
@@ -255,14 +286,15 @@ namespace ControlPersonalData.Infra.Data.Service
 
             string calculatedDigits = $"{firstCheckDigit}{secondCheckDigit}";
 
-            return cpf.EndsWith(calculatedDigits);
+            bool isValid = cpf.EndsWith(calculatedDigits);
+            return await Task.FromResult(isValid);
         }
 
         /// <summary>
-        /// Exist this CPF.
+        /// Existing CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
-        /// <returns>A bool.</returns>
-        public bool ExistingCPF(string cpf) { return _userRepository.ExistingCPF(cpf); }
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        public async Task<bool> ExistingCPF(string cpf) { return await _userRepository.ExistingCPF(cpf); }
     }
 }

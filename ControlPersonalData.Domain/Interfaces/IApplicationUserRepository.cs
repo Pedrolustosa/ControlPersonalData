@@ -3,58 +3,60 @@
 namespace ControlPersonalData.Domain.Interfaces
 {
     /// <summary>
-    /// The application repository interface.
+    /// The application user repository interface.
     /// </summary>
     public interface IApplicationUserRepository
     {
         /// <summary>
-        /// Gets the data PDF.
+        /// Get data PDF.
         /// </summary>
-        /// <returns>A string.</returns>
-        string GetDataPDF();
+        /// <returns><![CDATA[Task<List<ApplicationUser>>]]></returns>
+        Task<List<ApplicationUser>> GetDataPDF();
 
         /// <summary>
-        /// Gets the all.
+        /// Get the all.
         /// </summary>
-        /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageQuantity">The page quantity.</param>
+        /// <returns><![CDATA[Task<List<ApplicationUser>>]]></returns>
         Task<List<ApplicationUser>> GetAll(int pageNumber, int pageQuantity);
 
         /// <summary>
-        /// Get the by id.
+        /// Get by id.
         /// </summary>
         /// <param name="id">The id.</param>
-        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        /// <returns><![CDATA[Task<ApplicationUser>]]></returns>
         Task<ApplicationUser> GetById(string id);
 
         /// <summary>
-        /// Gets the status user.
+        /// Get status user.
         /// </summary>
         /// <param name="userName">The user name.</param>
-        /// <returns>A bool.</returns>
-        bool GetStatusUser(string userName);
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        Task<bool> GetStatusUser(string userName);
 
         /// <summary>
-        /// Get the by email.
+        /// Get user name.
         /// </summary>
-        /// <param name="userName">The email.</param>
-        /// <returns><![CDATA[A Task<ApplicationUser>.]]></returns>
+        /// <param name="userName">The user name.</param>
+        /// <returns><![CDATA[Task<ApplicationUser>]]></returns>
         Task<ApplicationUser> GetUserName(string userName);
 
         /// <summary>
-        /// Gets the filter.
+        /// Get the filter.
         /// </summary>
         /// <param name="email">The email.</param>
         /// <param name="name">The name.</param>
         /// <param name="birthDate">The birth date.</param>
         /// <param name="motherName">The mother name.</param>
-        /// <returns><![CDATA[A Task<List<ApplicationUser>>.]]></returns>
+        /// <returns><![CDATA[Task<List<ApplicationUser>>]]></returns>
         Task<List<ApplicationUser>> GetFilter(string email, string name, string birthDate, string motherName);
 
         /// <summary>
-        /// Exist this CPF.
+        /// Existing CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
-        /// <returns>A bool.</returns>
-        bool ExistingCPF(string cpf);
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        Task<bool> ExistingCPF(string cpf);
     }
 }
