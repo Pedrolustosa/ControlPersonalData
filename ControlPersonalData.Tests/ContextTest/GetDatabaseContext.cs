@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ControlPersonalData.Domain.Entities;
 using ControlPersonalData.Infra.Data.Context;
-using System;
 
 #nullable disable
 namespace ControlPersonalData.Tests.ContextTest
@@ -12,57 +11,43 @@ namespace ControlPersonalData.Tests.ContextTest
     public class GetDatabaseContext
     {
         /// <summary>
-        /// Gets the database contexts.
+        /// Get database contexts.
         /// </summary>
-        /// <returns><![CDATA[A Task<ApplicationDbContext>.]]></returns>
+        /// <returns><![CDATA[Task<ApplicationDbContext>]]></returns>
         public static async Task<ApplicationDbContext> GetDatabaseContexts()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             var databaseContext = new ApplicationDbContext(options);
-            databaseContext.Database.EnsureCreated();
-
-            if (!await databaseContext.Users.AnyAsync())
-                 await SeedUserData(databaseContext);
-
-            await databaseContext.SaveChangesAsync();
+            await databaseContext.Database.EnsureCreatedAsync().ConfigureAwait(false);
+            if (!await databaseContext.Users.AnyAsync().ConfigureAwait(false))
+                await SeedUserData(databaseContext).ConfigureAwait(false);
+            await databaseContext.SaveChangesAsync().ConfigureAwait(false);
             return databaseContext;
         }
 
         /// <summary>
-        /// Seeds the user data.
+        /// Seeds user data.
         /// </summary>
         /// <param name="dbContext">The db context.</param>
-        /// <returns>A Task.</returns>
+        /// <returns>A Task</returns>
         private static async Task SeedUserData(ApplicationDbContext dbContext)
         {
-            var users = Enumerable.Range(1, 6).Select(_ => CreateSampleUser()).ToList();
-            dbContext.Users.AddRange(users);
-        }
-
-        /// <summary>
-        /// Creates the sample user.
-        /// </summary>
-        /// <returns>An ApplicationUser.</returns>
-        private static ApplicationUser CreateSampleUser()
-        {
-            Random random = new();
+            var random = new Random();
             string GenerateRandomSequence(int length) => string.Join("", Enumerable.Range(0, length).Select(_ => random.Next(10)));
-
-            return new ApplicationUser
+            for (int i = 0; i < 5; i++)
             {
-                Id = Guid.NewGuid().ToString(),
-                Email = "testNewUpdate" + GenerateRandomSequence(2) + "@test.com",
-                Name = "testNewUpdate",
-                CPF = GenerateRandomSequence(11),
-                BirthDate = new DateTime(1996, 10, 21),
-                DateInsert = DateTime.Parse("2023-11-06 12:46:50.079"),
-                DateAlteration = DateTime.Parse("2023-11-09 09:48:02.168"),
-                MotherName = "testNewUpdate",
-                Status = true,
-                UserName = "TEST" + GenerateRandomSequence(2),
-                PasswordHash = "Test@2023",
-                PhoneNumber = GenerateRandomSequence(9),
-            };
+                var email = $"user{i}@example.com";
+                var userName = $"user{i}";
+                var phoneNumber = GenerateRandomSequence(9);
+                var name = "testNewUpdate";
+                var cpf = GenerateRandomSequence(11);
+                var birthDate = new DateTime(1996, 10, 21);
+                var motherName = "testNewUpdate";
+                var status = true;
+                var user = new ApplicationUser(email, userName, phoneNumber, name, cpf, birthDate, motherName, status);
+                dbContext.Users.Add(user);
+            }
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

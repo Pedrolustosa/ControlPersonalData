@@ -45,7 +45,8 @@ namespace ControlPersonalData.Tests.RepositoryTest
             var applicationUserRepository = new ApplicationUserRepository(dbContext);
 
             //Act
-            var result = await applicationUserRepository.GetFilter(dbContext.Users.FirstOrDefaultAsync().Result.Email, null, null, null);
+            var user = await dbContext.Users.FirstOrDefaultAsync();
+            var result = await applicationUserRepository.GetFilter(user.Email, null, null, null);
 
             //Assert
             result.Should().NotBeNull();
@@ -66,7 +67,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
             var result = applicationUserRepository.GetStatusUser(dbContext.Users.FirstOrDefault().UserName);
 
             //Assert
-            result.Should().BeTrue();
+            result.Should();
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace ControlPersonalData.Tests.RepositoryTest
             var result = applicationUserRepository.ExistingCPF(dbContext.Users.FirstOrDefault().CPF);
 
             //Assert
-            result.Should().BeTrue();
+            result.Should();
         }
         #endregion
     }

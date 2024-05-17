@@ -29,56 +29,51 @@ namespace ControlPersonalData.Application.Interfaces
         Task<ApplicationUserDTO> GetUserName(string userName);
 
         /// <summary>
-        /// Gets the filter.
+        /// Filters and return a task of a list of applicationuserfilterdtos.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="birthDate">The birth date.</param>
-        /// <param name="motherName">The mother name.</param>
-        /// <returns><![CDATA[A Task<List<ApplicationUserFilterDTO>>.]]></returns>
-        Task<IEnumerable<ApplicationUserFilterDTO>> GetFilter(string email, string name, string birthDate, string motherName);
+        /// <param name="applicationUserFilterDTO">The application user filter DTO.</param>
+        /// <returns><![CDATA[Task<IEnumerable<ApplicationUserFilterDTO>>]]></returns>
+        Task<IEnumerable<ApplicationUserFilterDTO>> Filter(ApplicationUserFilterDTO applicationUserFilterDTO);
 
         /// <summary>
-        /// 
+        /// Post and return a task of type bool.
         /// </summary>
         /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
-        /// <returns><![CDATA[A Task<bool>.]]></returns>
-        Task<bool> Register(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role);
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        Task<bool> Post(ApplicationUserRegisterDTO applicationUserRegisterDTO, string role);
 
         /// <summary>
-        /// Updates the account.
+        /// Update and return a task of type applicationuserupdatedto.
         /// </summary>
         /// <param name="applicationUserUpdateDTO">The application user update DTO.</param>
-        /// <returns><![CDATA[A Task<ApplicationUserUpdateDTO>.]]></returns>
-        Task<ApplicationUserUpdateDTO> UpdateAccount(ApplicationUserUpdateDTO applicationUserUpdateDTO);
+        /// <returns><![CDATA[Task<ApplicationUserUpdateDTO>]]></returns>
+        Task<ApplicationUserUpdateDTO> Update(ApplicationUserUpdateDTO applicationUserUpdateDTO);
 
         /// <summary>
-        /// Export the to pdf.
+        /// Export converts to pdf.
         /// </summary>
-        /// <param name="data">The data.</param>
-        /// <param name="fileName">The file name.</param>
-        /// <returns>A string.</returns>
-        string ExportToPdf(DataTable data, string fileName);
+        /// <returns><![CDATA[Task<string>]]></returns>
+        Task<string> ExportToPdf();
 
         /// <summary>
         /// Gets the personal data.
         /// </summary>
         /// <returns>A DataTable.</returns>
-        DataTable GetPersonalData();
+        Task<DataTable> GetPersonalData();
 
         /// <summary>
-        /// Validates CPF.
+        /// Validate CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
-        /// <returns>A bool.</returns>
-       bool ValidateCPF(string cpf);
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        Task<bool> ValidateCPF(string cpf);
 
         /// <summary>
-        /// Exist this CPF.
+        /// Existing CPF.
         /// </summary>
         /// <param name="cpf">The cpf.</param>
-        /// <returns>A bool.</returns>
-        bool ExistingCPF(string cpf);
+        /// <returns><![CDATA[Task<bool>]]></returns>
+        Task<bool> ExistingCPF(string cpf);
     }
 }

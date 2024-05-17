@@ -9,13 +9,6 @@ namespace ControlPersonalData.Domain.Entities
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
-
-        /// <summary>
-        /// For test unit
-        /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
-        /// </summary>
-        public ApplicationUser() { }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
         /// </summary>

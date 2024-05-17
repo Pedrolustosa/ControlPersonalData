@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ControlPersonalData.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using ControlPersonalData.Application.DTOs;
@@ -31,7 +30,7 @@ namespace ControlPersonalData.Controllers
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageQuantity">The page quantity.</param>
         /// <returns><![CDATA[A Task<List<ApplicationUserDTO>>.]]></returns>
-        [HttpGet("GetAllUsers")]
+        [HttpGet("GetAll")]
         [AllowAnonymous]
         public async Task<List<ApplicationUserDTO>> GetAll(int pageNumber, int pageQuantity) => await _applicationUserService.GetAll(pageNumber, pageQuantity);
 
@@ -41,14 +40,11 @@ namespace ControlPersonalData.Controllers
         /// </summary>
         /// <param name="applicationUserFilterDTO">The application user filter DTO.</param>
         /// <returns><![CDATA[A Task<IActionResult>.]]></returns>
-        [HttpGet("GetFilter")]
+        [HttpGet("Filter")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetFilter([FromQuery] ApplicationUserFilterDTO applicationUserFilterDTO)
+        public async Task<IActionResult> Filter([FromQuery] ApplicationUserFilterDTO applicationUserFilterDTO)
         {
-            var result = await _applicationUserService.GetFilter(applicationUserFilterDTO.Email, 
-                                                                 applicationUserFilterDTO.Name,
-                                                                 applicationUserFilterDTO.BirthDate.ToString(),
-                                                                 applicationUserFilterDTO.MotherName);
+            var result = await _applicationUserService.Filter(applicationUserFilterDTO);
             return Ok(new {Message = "Total Users: " + result.ToList().Count, Data = result});
         }
 
@@ -58,11 +54,11 @@ namespace ControlPersonalData.Controllers
         /// <param name="applicationUserRegisterDTO">The application user register DTO.</param>
         /// <param name="role">The role.</param>
         /// <returns><![CDATA[A Task<ActionResult<UserToken>>.]]></returns>
-        [HttpPost("Register")]
+        [HttpPost("RegisterUser")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserToken>> Register([FromBody] ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
+        public async Task<ActionResult<UserToken>> Post([FromBody] ApplicationUserRegisterDTO applicationUserRegisterDTO, string role)
         {
-            var result = await _applicationUserService.Register(applicationUserRegisterDTO, role);
+            var result = await _applicationUserService.Post(applicationUserRegisterDTO, role);
             if (result)
                 return Ok($"User {applicationUserRegisterDTO.Email} was created with success!");
             else
@@ -79,26 +75,25 @@ namespace ControlPersonalData.Controllers
         /// <returns><![CDATA[A Task<ActionResult>.]]></returns>
         [HttpPut("UpdateUser")]
         [AllowAnonymous]
-        public async Task<IActionResult> UpdateUser(ApplicationUserUpdateDTO applicationUserUpdateDTO)
+        public async Task<IActionResult> Update(ApplicationUserUpdateDTO applicationUserUpdateDTO)
         {
             _ = await _applicationUserService.GetUserName(applicationUserUpdateDTO.UserName) ?? throw new Exception("This user not exits!");
-            var applicationUserUpdate = await _applicationUserService.UpdateAccount(applicationUserUpdateDTO);
+            var applicationUserUpdate = await _applicationUserService.Update(applicationUserUpdateDTO);
             if (applicationUserUpdate is null) return NoContent();
             return Ok(new { email = applicationUserUpdate.Email });
         }
 
         /// <summary>
-        /// Gets the personal data.
+        /// Get personal data.
         /// </summary>
-        /// <returns>An ActionResult.</returns>
+        /// <returns><![CDATA[Task<IActionResult>]]></returns>
         [HttpGet("PDF")]
         [AllowAnonymous]
-        public IActionResult GetPersonalData()
+        public async Task<IActionResult> GetPersonalData()
         {
-            DataTable data = _applicationUserService.GetPersonalData();
-            string pdfPath = _applicationUserService.ExportToPdf(data, "ListUsers-" + DateTime.Now.ToString("d"));
+            string pdfPath = await _applicationUserService.ExportToPdf();
             var pdfStream = System.IO.File.OpenRead(pdfPath);
-            return File(pdfStream, "application/pdf", "ListUsers-" + DateTime.Now.ToString("d") + ".pdf");
+            return File(pdfStream, "application/pdf", $"{DateTime.Now:d}.pdf");
         }
     }
 }
